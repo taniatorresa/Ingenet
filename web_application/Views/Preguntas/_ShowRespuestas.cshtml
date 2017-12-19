@@ -1,45 +1,160 @@
 ﻿@model IEnumerable<Entities.Respuesta>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ContenidoRespuesta)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UsuarioID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PreguntaID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Creada)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ContenidoRespuesta)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UsuarioID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PreguntaID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Creada)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.RespuestaID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.RespuestaID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.RespuestaID })
-        </td>
-    </tr>
+<div class="tabbable-line">
+    <ul class="nav nav-tabs ">
+        <li class="active">
+            <a href="#tab_1" data-toggle="tab"> Comentarios </a>
+        </li>
+        @*<li>
+                <a href="#tab_2" data-toggle="tab"> History </a>
+            </li>*@
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="tab_1">
+            <!-- TASK COMMENTS -->
+            <div class="form-group">
+                @foreach (var item in Model)
+                {
+                    <div class="col-md-12">
+                        <ul class="media-list">
+                            <li class="media">
+                                <a class="pull-left" href="javascript:;">
+
+                                    <img class="todo-userpic" src="@Url.Action("Getknowimage", "Usuario", new { id = item.UsuarioID  })" width="27px" height="27px" />
+                                </a>
+                                <div class="media-body todo-comment">
+                                    <button type="button" class="todo-comment-btn btn btn-circle btn-default btn-sm">&nbsp; Comentario &nbsp;</button>
+                                    <p class="todo-comment-head">
+                                        <span class="todo-comment-username">@Html.Action("Getusuario", new { id = item.UsuarioID })</span> &nbsp;
+                                        @{
+
+                                            String newfecha = "";
+                                            int c = 0;
+                                            String value = (item.Creada).ToString();
+                                            Char delimiter = ' ';
+                                            String[] substrings = value.Split(delimiter);
+                                            foreach (var substring in substrings)
+                                            {
+                                                if (c == 0)
+                                                {
+                                                    newfecha = substring;
+                                                }
+                                                c++;
+
+                                            }
+
+                                        }
+                                        <span class="todo-comment-date">@newfecha</span>
+                                    </p>
+                                    <p class="todo-text-color">
+                                        @Html.DisplayFor(modelItem => item.ContenidoRespuesta)
+                                    </p>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    @*<td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.RespuestaID }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.RespuestaID }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.RespuestaID })
+                        </td>*@
+
+                }
+
+            </div>
+            <!-- END TASK COMMENTS -->
+            <!-- TASK COMMENT FORM -->
+            <!-- END TASK COMMENT FORM -->
+        </div>
+        <div class="tab-pane" id="tab_2">
+            <ul class="todo-task-history">
+                <li>
+                    <div class="todo-task-history-date"> 20 Jun, 2014 at 11:35am </div>
+                    <div class="todo-task-history-desc"> Task created </div>
+                </li>
+                <li>
+                    <div class="todo-task-history-date"> 21 Jun, 2014 at 10:35pm </div>
+                    <div class="todo-task-history-desc"> Task category status changed to "Top Priority" </div>
+                </li>
+                <li>
+                    <div class="todo-task-history-date"> 22 Jun, 2014 at 11:35am </div>
+                    <div class="todo-task-history-desc"> Task owner changed to "Nick Larson" </div>
+                </li>
+                <li>
+                    <div class="todo-task-history-date"> 30 Jun, 2014 at 8:09am </div>
+                    <div class="todo-task-history-desc"> Task completed by "Nick Larson" </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+@*<p>
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
+@*<table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ContenidoRespuesta)xxx
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsuarioID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PreguntaID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Creada)
+            </th>
+            <th></th>
+        </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContenidoRespuesta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsuarioID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PreguntaID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Creada)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.RespuestaID }) |
+                @Html.ActionLink("Details", "Details", new { id=item.RespuestaID }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.RespuestaID })
+            </td>
+        </tr>
+    }
+
+    </table>*@
+
+
+
+@section Styles{
+
+    <link href="~/Content/datatables.bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/datatables.min.css" rel="stylesheet" />
+    <link href="~/Content/select2.css" rel="stylesheet" />
+    <link href="~/Content/select2-bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/todo-2.min.css" rel="stylesheet" />
+
 }
 
-</table>
+<!-- instala en  nuget -->
+@section Scripts{
+
+    <script src="~/Scripts/todo-2.min.js"></script>
+    <script src="~/Scripts/select2.full.min.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.min.js"></script>
+    <script src="~/Scripts/datatable.js" type="text/javascript"></script>
+    <script src="~/Scripts/datatables.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/datatables.bootstrap.js" type="text/javascript"></script>
+    <script src="~/Scripts/table-datatables-responsive.min.js"></script>
+
+}

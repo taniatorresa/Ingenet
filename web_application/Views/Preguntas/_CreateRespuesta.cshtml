@@ -1,39 +1,52 @@
 ﻿@model Entities.Respuesta
 
+@using System.Security.Claims;
+@using System.Threading;
+@{
+    //AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.Email;
+    AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;
+    var Usuario = "";
+    var ID = "";
+    ClaimsPrincipal Principal = Thread.CurrentPrincipal as ClaimsPrincipal;
+    if (Principal != null && Principal.Identity.IsAuthenticated)
+    {
+        var Claims = Principal.Claims.ToList();
+        Usuario = Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value;
+        ID = Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+    }
+
+
+}
 
 @using (Ajax.BeginForm("ShowNewRespuesta", "Preguntas", null,
-                                                             new AjaxOptions
-                                                             {
-                                                                 HttpMethod = "POST",
-                                                                 UpdateTargetId = "DetOrd",
-                                                                 OnSuccess = "cerrar",
-                                                                 OnFailure = "error",
-                                                                 AllowCache = false,
-                                                             }, new { role = "form", id = "Formulario" }))
+                                                                         new AjaxOptions
+                                                                         {
+                                                                             HttpMethod = "POST",
+                                                                             UpdateTargetId = "DetOrd",
+                                                                             OnSuccess = "cerrar",
+                                                                             OnFailure = "error",
+                                                                             AllowCache = false,
+                                                                         }, new { role = "form", id = "Formulario" }))
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Respuesta</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @*<div class="form-group">
             @Html.LabelFor(model => model.ContenidoRespuesta, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.ContenidoRespuesta, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ContenidoRespuesta, "", new { @class = "text-danger" })
             </div>
-        </div>
-
-        <div class="form-group">
+        </div>*@
+    <div class="form-horizontal">
+        <div class="form-group" style='display:none;'>
             @Html.LabelFor(model => model.UsuarioID, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.UsuarioID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.UsuarioID, new { htmlAttributes = new { @class = "form-control", @Value = @ID } })
                 @Html.ValidationMessageFor(model => model.UsuarioID, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" style='display:none;'>
             @Html.LabelFor(model => model.PreguntaID, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.PreguntaID, new { htmlAttributes = new { @class = "form-control", Value = ViewBag.PreguntaID } })
@@ -41,14 +54,79 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+
+        <div class="form-group" style='display:none;'>
+            @Html.LabelFor(model => model.Creada, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+
+                @Html.EditorFor(model => model.Creada, new { htmlAttributes = new { id = "fecha", @class = "form-control", placeholder = "Fecha" } })
+                @Html.ValidationMessageFor(model => model.Creada, "", new { @class = "text-danger" })
             </div>
         </div>
+
+        <div class="form-group">
+            <div class="col-md-12">
+                <ul class="media-list">
+                    <li class="media">
+                        <a class="pull-left" href="javascript:;">
+
+                            <img class="todo-userpic" src="@Url.Action("Getknowimage", "Usuario", new { id = @ID  })" width="27px" height="27px">
+                        </a>
+                        <div class="media-body">
+                            @*<textarea class="form-control todo-taskbody-taskdesc" rows="4" placeholder="Escribe tu respuesta"></textarea>*@
+                            @Html.TextAreaFor(model => model.ContenidoRespuesta, new { @class = "form-control todo-taskbody-taskdesc", rows = "4", placeholder = "Escribe tu respuesta" })
+                            @Html.ValidationMessageFor(model => model.ContenidoRespuesta, "", new { @class = "text-danger" })
+                        </div>
+                    </li>
+                </ul>
+                <button type="submit" class="pull-right btn btn-sm btn-circle green"> &nbsp; Responder &nbsp; </button>
+            </div>
+        </div>
+
+
+
+
+
     </div>
 }
 
 
+@section Styles{
+
+
+    <link href="~/Content/select2.css" rel="stylesheet" />
+    <link href="~/Content/select2-bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/todo-2.min.css" rel="stylesheet" />
+
+}
 
 <!-- instala en  nuget -->
+@section Scripts
+    {
+
+    <script src="~/Scripts/todo-2.min.js"></script>
+    <script src="~/Scripts/select2.full.min.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.min.js"></script>
+    <script src="~/Scripts/bootstrap-confirmation.min.js"></script>
+    <script src="~/Scripts/ui-confirmations.min.js"></script>
+
+
+    <script type="text/javascript">
+
+         //FECHA
+         $(document).ready(function () {
+             Date.prototype.yyyymmdd = function () {
+                 var yyyy = this.getFullYear().toString();
+                 var mm = (this.getMonth() + 1).toString(); // getMonth() is zero-based
+                 var dd = this.getDate().toString();
+                 return yyyy + "/" + (mm[1] ? mm : "0" + mm[0]) + "/" + (dd[1] ? dd : "0" + dd[0]); // padding
+             };
+             var date = new Date();
+             $("#fecha").val(date.yyyymmdd());
+         });
+
+    </script>
+
+
+
+}

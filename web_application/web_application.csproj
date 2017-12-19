@@ -228,6 +228,8 @@
     <Content Include="Views\Preguntas\_ShowTemas.cshtml" />
     <Content Include="Views\Preguntas\BuscarPreguntas.cshtml" />
     <Content Include="Views\Preguntas\_BuscarPreguntasPorTema.cshtml" />
+    <Content Include="Views\Preguntas\IndexNotificacion.cshtml" />
+    <Content Include="Views\Preguntas\_ShowRespuestasAbreviadas.cshtml" />
     <None Include="Views\Temas\Create.cshtml" />
     <Content Include="Views\Temas\Edit.cshtml" />
     <Content Include="Views\Temas\Details.cshtml" />
@@ -252,7 +254,6 @@
     <Content Include="Views\Usuario\Details.cshtml" />
     <Content Include="Views\Usuario\Delete.cshtml" />
     <Content Include="Views\Usuario\imagen.cshtml" />
-    <Content Include="Views\Usuario\_CreateEstadisticas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

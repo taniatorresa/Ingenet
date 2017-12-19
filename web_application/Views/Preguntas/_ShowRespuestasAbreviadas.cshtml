@@ -1,0 +1,83 @@
+﻿@model IEnumerable<Entities.Respuesta>
+<div class="row">
+   
+
+
+
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-md-2">
+
+                        </div>
+                        <div class="col-md-10">
+                            <ul class="media-list">
+                                <li class="media">
+                                    <a class="pull-left" href="javascript:;">
+
+                                        <img class="todo-userpic" src="@Url.Action("Getknowimage", "Usuario", new { id = item.UsuarioID  })" width="27px" height="27px" />
+                                    </a>
+                                    <div class="media-body todo-comment">
+                                        <button type="button" class="todo-comment-btn btn btn-circle btn-default btn-sm">&nbsp; Comentario &nbsp;</button>
+                                        <p class="todo-comment-head">
+                                            <span class="todo-comment-username">@Html.Action("Getusuario", new { id = item.UsuarioID })</span> &nbsp;
+                                            @{
+
+                                                String newfecha = "";
+                                                int c = 0;
+                                                String value = (item.Creada).ToString();
+                                                Char delimiter = ' ';
+                                                String[] substrings = value.Split(delimiter);
+                                                foreach (var substring in substrings)
+                                                {
+                                                    if (c == 0)
+                                                    {
+                                                        newfecha = substring;
+                                                    }
+                                                    c++;
+
+                                                }
+
+                                            }
+                                            <span class="todo-comment-date">@newfecha</span>
+                                        </p>
+                                        <p class="todo-text-color">
+                                            @Html.DisplayFor(modelItem => item.ContenidoRespuesta)
+                                        </p>
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </div>
+                        @*<td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.RespuestaID }) |
+                                @Html.ActionLink("Details", "Details", new { id = item.RespuestaID }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.RespuestaID })
+                            </td>*@
+
+                    }
+
+                </div>
+          
+
+@section Styles{
+
+    <link href="~/Content/datatables.bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/datatables.min.css" rel="stylesheet" />
+    <link href="~/Content/select2.css" rel="stylesheet" />
+    <link href="~/Content/select2-bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/todo-2.min.css" rel="stylesheet" />
+
+}
+
+<!-- instala en  nuget -->
+@section Scripts{
+
+    <script src="~/Scripts/todo-2.min.js"></script>
+    <script src="~/Scripts/select2.full.min.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.min.js"></script>
+    <script src="~/Scripts/datatable.js" type="text/javascript"></script>
+    <script src="~/Scripts/datatables.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/datatables.bootstrap.js" type="text/javascript"></script>
+    <script src="~/Scripts/table-datatables-responsive.min.js"></script>
+
+}

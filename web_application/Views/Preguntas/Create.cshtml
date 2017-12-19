@@ -1,61 +1,275 @@
 ﻿@model Entities.Pregunta
 
+@using System.Security.Claims;
+@using System.Threading;
+@{
+    //AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.Email;
+    AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;
+    var Usuario = "";
+    var ID = "";
+    ClaimsPrincipal Principal = Thread.CurrentPrincipal as ClaimsPrincipal;
+    if (Principal != null && Principal.Identity.IsAuthenticated)
+    {
+        var Claims = Principal.Claims.ToList();
+        Usuario = Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value;
+        ID = Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+    }
+
+
+}
+
 @{
     ViewBag.Title = "Nueva Pregunta";
 }
 
-<h2>Nuevo</h2>
-@using (Html.BeginForm())
-{
+<div class="portlet-body">
+    <div class="row">
+        <div class="col-md-7 col-sm-8">
+            @using (Html.BeginForm("Create", "Preguntas", null, FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <!-- TASK HEAD -->
 
-    @Html.AntiForgeryToken()
+                @*Usuario ID*@
+                <div class="form-group" style='display:none;'>
+                    @Html.EditorFor(model => model.UsuarioID, new { htmlAttributes = new { @class = "form-control", @Value = @ID } })
+                    @Html.ValidationMessageFor(model => model.UsuarioID, "", new { @class = "text-danger" })
 
-    <div class="form-horizontal" id="Pregunta">
-
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.TituloPregunta, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.TituloPregunta, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TituloPregunta, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ContenidoPregunta, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ContenidoPregunta, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ContenidoPregunta, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.UsuarioID, "SupplierID", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.UsuarioID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.UsuarioID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Estado, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Estado, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        @Html.Action("CreateSelect", "Preguntas")
+                    @Html.EditorFor(model => model.Estado, new { htmlAttributes = new { @class = "form-control", @Value = true, @checked = false } })
+                    @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger" })
+                </div>
+                <div class="form">
+                    <div class="form-group">
+                        <div class="col-md-8 col-sm-8">
+                            <div class="todo-taskbody-user">
+                                @*@Html.Action("Getknowimage","Usuario", new { id = @ID })*@
+                                <img alt="foto" width="50px" height="50px" class="todo-userpic pull-left" src="@Url.Action("Getknowimage", "Usuario", new { id = @ID,  })" />
+                                @*<img class="todo-userpic pull-left" src="../assets/pages/media/users/avatar6.jpg" width="50px" height="50px">*@
+                                <span class="todo-username pull-left">@Usuario</span>
+                                @*<button type="button" class="todo-username-btn btn btn-circle btn-default btn-sm">&nbsp;edit&nbsp;</button>*@
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <div class="todo-taskbody-date pull-right">
+                                @(Html.ActionLink("Cancelar", "Index", new { id = 1 }, new { @class = "todo-username-btn btn btn-circle btn-default btn-sm" }))
+                                @*<button type="button" class="todo-username-btn btn btn-circle btn-default btn-sm">&nbsp; Complete &nbsp;</button>*@
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END TASK HEAD -->
+                    <!-- TASK TITLE -->
 
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Guardar" class="btn btn-primary" />
-            </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.TituloPregunta, new { htmlAttributes = new { @class = "form-control todo-taskbody-tasktitle", placeholder = "Titulo" } })
+                            @Html.ValidationMessageFor(model => model.TituloPregunta, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    @Html.Action("CreateSelect", "Preguntas")
+                    <!-- TASK DESC -->
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @*<textarea class="form-control todo-taskbody-taskdesc" rows="8" placeholder="Task Description..."></textarea>*@
+                            @Html.TextAreaFor(model => model.ContenidoPregunta, new { @class = "form-control todo-taskbody-taskdesc", rows = "8", placeholder = "¿Que quieres preguntar?" })
+                            @Html.ValidationMessageFor(model => model.ContenidoPregunta, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <!-- END TASK DESC -->
+                    <!-- TASK DUE DATE -->
+                    <div class="form-group" style='display:none;'>
+                        <div class="col-md-12">
+                            <div class="input-icon">
+                                <i class="fa fa-calendar"></i>
+                                @Html.EditorFor(model => model.Creada, new { htmlAttributes = new { id = "fecha", @class = "", placeholder = "Fecha" } })
+                                @Html.ValidationMessageFor(model => model.Creada, "", new { @class = "text-danger" })
+                                @*<input type="text" class="form-control todo-taskbody-due" placeholder="Due Date...">*@
+                            </div>
+                        </div>
+                    </div>
+
+                   
+                    <!-- TASK TAGS TEMAS/////////////////////////////////////EN ESPERA -->
+                    @*<div class="form-group">
+                            <div class="col-md-12">
+                                <select class="form-control todo-taskbody-tags">
+                                    <option value="Pending">Pending</option>
+                                    <option value="Completed">Completed</option>
+                                    <option value="Testing">Testing</option>
+                                    <option value="Approved">Approed</option>
+                                    <option value="Rejected">Rejected</option>
+                                </select>
+                            </div>
+                        </div>*@
+                    <!-- TASK TAGS -->
+                    <div class="form-actions right todo-form-actions">
+                        <button type="submit" class="btn green-sharp btn-circle">Preguntar</button>
+                        @*@Html.ActionLink("Cancelar", "Pregunta", new { htmlAttributes = new { @class = "btn btn-circle btn-sm btn-default" } })*@
+                        @*<button class="btn btn-circle btn-sm btn-default">Cancel</button>*@
+                    </div>
+                </div>
+                @*<div class="tabbable-line">
+                        <ul class="nav nav-tabs ">
+                            <li class="active">
+                                <a href="#tab_1" data-toggle="tab"> Comments </a>
+                            </li>
+                            <li>
+                                <a href="#tab_2" data-toggle="tab"> History </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tab_1">
+                                <!-- TASK COMMENTS -->
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <ul class="media-list">
+                                            <li class="media">
+                                                <a class="pull-left" href="javascript:;">
+                                                    <img class="todo-userpic" src="../assets/pages/media/users/avatar8.jpg" width="27px" height="27px">
+                                                </a>
+                                                <div class="media-body todo-comment">
+                                                    <button type="button" class="todo-comment-btn btn btn-circle btn-default btn-sm">&nbsp; Reply &nbsp;</button>
+                                                    <p class="todo-comment-head">
+                                                        <span class="todo-comment-username">Christina Aguilera</span> &nbsp;
+                                                        <span class="todo-comment-date">17 Sep 2014 at 2:05pm</span>
+                                                    </p>
+                                                    <p class="todo-text-color">
+                                                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra
+                                                        turpis.
+                                                    </p>
+                                                    <!-- Nested media object -->
+                                                    <div class="media">
+                                                        <a class="pull-left" href="javascript:;">
+                                                            <img class="todo-userpic" src="../assets/pages/media/users/avatar4.jpg" width="27px" height="27px">
+                                                        </a>
+                                                        <div class="media-body">
+                                                            <p class="todo-comment-head">
+                                                                <span class="todo-comment-username">Carles Puyol</span> &nbsp;
+                                                                <span class="todo-comment-date">17 Sep 2014 at 4:30pm</span>
+                                                            </p>
+                                                            <p class="todo-text-color"> Thanks so much my dear! </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="media">
+                                                <a class="pull-left" href="javascript:;">
+                                                    <img class="todo-userpic" src="../assets/pages/media/users/avatar5.jpg" width="27px" height="27px">
+                                                </a>
+                                                <div class="media-body todo-comment">
+                                                    <button type="button" class="todo-comment-btn btn btn-circle btn-default btn-sm">&nbsp; Reply &nbsp;</button>
+                                                    <p class="todo-comment-head">
+                                                        <span class="todo-comment-username">Andres Iniesta</span> &nbsp;
+                                                        <span class="todo-comment-date">18 Sep 2014 at 9:22am</span>
+                                                    </p>
+                                                    <p class="todo-text-color">
+                                                        Cras sit amet nibh libero, in gravida nulla. Scelerisque ante sollicitudin commodo Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum
+                                                        in vulputate at, tempus viverra turpis.
+                                                        <br>
+                                                    </p>
+                                                </div>
+                                            </li>
+                                            <li class="media">
+                                                <a class="pull-left" href="javascript:;">
+                                                    <img class="todo-userpic" src="../assets/pages/media/users/avatar6.jpg" width="27px" height="27px">
+                                                </a>
+                                                <div class="media-body todo-comment">
+                                                    <button type="button" class="todo-comment-btn btn btn-circle btn-default btn-sm">&nbsp; Reply &nbsp;</button>
+                                                    <p class="todo-comment-head">
+                                                        <span class="todo-comment-username">Olivia Wilde</span> &nbsp;
+                                                        <span class="todo-comment-date">18 Sep 2014 at 11:50am</span>
+                                                    </p>
+                                                    <p class="todo-text-color">
+                                                        Cras sit amet nibh libero, in gravida nulla. Scelerisque ante sollicitudin commodo Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum
+                                                        in vulputate at, tempus viverra turpis.
+                                                        <br>
+                                                    </p>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- END TASK COMMENTS -->
+                                <!-- TASK COMMENT FORM -->
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <ul class="media-list">
+                                            <li class="media">
+                                                <a class="pull-left" href="javascript:;">
+                                                    <img class="todo-userpic" src="../assets/pages/media/users/avatar4.jpg" width="27px" height="27px">
+                                                </a>
+                                                <div class="media-body">
+                                                    <textarea class="form-control todo-taskbody-taskdesc" rows="4" placeholder="Type comment..."></textarea>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <button type="button" class="pull-right btn btn-sm btn-circle green"> &nbsp; Submit &nbsp; </button>
+                                    </div>
+                                </div>
+                                <!-- END TASK COMMENT FORM -->
+                            </div>
+                            <div class="tab-pane" id="tab_2">
+                                <ul class="todo-task-history">
+                                    <li>
+                                        <div class="todo-task-history-date"> 20 Jun, 2014 at 11:35am </div>
+                                        <div class="todo-task-history-desc"> Task created </div>
+                                    </li>
+                                    <li>
+                                        <div class="todo-task-history-date"> 21 Jun, 2014 at 10:35pm </div>
+                                        <div class="todo-task-history-desc"> Task category status changed to "Top Priority" </div>
+                                    </li>
+                                    <li>
+                                        <div class="todo-task-history-date"> 22 Jun, 2014 at 11:35am </div>
+                                        <div class="todo-task-history-desc"> Task owner changed to "Nick Larson" </div>
+                                    </li>
+                                    <li>
+                                        <div class="todo-task-history-date"> 30 Jun, 2014 at 8:09am </div>
+                                        <div class="todo-task-history-desc"> Task completed by "Nick Larson" </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>*@
+            }
         </div>
     </div>
+</div>
+
+
+@section Styles{
+
+
+    <link href="~/Content/select2.css" rel="stylesheet" />
+    <link href="~/Content/select2-bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/todo-2.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-datepicker3.min.css" rel="stylesheet" />
+
 }
+
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-  }
+
+    <script src="~/Scripts/bootstrap-confirmation.min.js"></script>
+    <script src="~/Scripts/ui-confirmations.min.js"></script>
+
+
+    <script src="~/Scripts/bootstrap-datepicker.min.js"></script>
+    <script src="~/Scripts/select2.full.min.js"></script>
+    <script src="~/Scripts/todo-2.min.js"></script>
+    <script type="text/javascript">
+
+
+        //FECHA
+        $(document).ready(function () {
+            Date.prototype.yyyymmdd = function () {
+                var yyyy = this.getFullYear().toString();
+                var mm = (this.getMonth() + 1).toString(); // getMonth() is zero-based
+                var dd = this.getDate().toString();
+                return yyyy + "/" + (mm[1] ? mm : "0" + mm[0]) + "/" + (dd[1] ? dd : "0" + dd[0]); // padding
+            };
+            var date = new Date();
+            $("#fecha").val(date.yyyymmdd());
+        });
+
+    </script>
+}

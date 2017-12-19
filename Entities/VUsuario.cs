@@ -18,7 +18,7 @@ namespace Entities
             [DisplayName("Nombre(s)")]
             public string Nombres { get; set; }
 
-            //[Required(ErrorMessage = "Campo requerido")]
+            [Required(ErrorMessage = "Campo requerido")]
             [StringLength(50)]
             [DisplayName("Apellido paterno")]
             public string ApellidoPaterno { get; set; }
@@ -28,12 +28,12 @@ namespace Entities
             [DisplayName("Apellido materno")]
             public string ApellidoMaterno { get; set; }
 
-            //[Required(ErrorMessage = "Campo requerido")]
+            [Required(ErrorMessage = "Campo requerido")]
             [StringLength(20)]
             [DisplayName("Nombre de usuario")]
             public string UserName { get; set; }
 
-            //[Required(ErrorMessage = "Campo requerido")]
+            [Required(ErrorMessage = "Campo requerido")]
             [StringLength(50)]
             [DataType(DataType.EmailAddress)]
             [DisplayName("E-mail")]
@@ -48,11 +48,9 @@ namespace Entities
             [DisplayName("Contraseña")]
             public string Contraseña { get; set; }
 
-            //[Required(ErrorMessage = "Campo requerido")]
-            [DisplayName("Ocupación")]
-            public string Ocupacion { get; set; }
 
-            //[Required(ErrorMessage = "Campo requerido")]
+
+            [Required(ErrorMessage = "Campo requerido")]
             [StringLength(5)]
             [DisplayName("Rol")]
             public string Rol { get; set; }
@@ -62,10 +60,20 @@ namespace Entities
             public int Sexo { get; set; }
 
             [Required(ErrorMessage = "Estatus requerido")]
+            [StringLength(50, MinimumLength = 2, ErrorMessage = "Campo requerido")]
             [DisplayName("Carrera")]
             public string Carrera { get; set; }
 
-            //[Required(ErrorMessage = "Campo requerido")]
+
+            [StringLength(50, MinimumLength = 2, ErrorMessage = "Campo requerido")]
+            [DisplayName("Ocupación")]
+            //[Range(1, 30, ErrorMessage = "Campo requerido")]//////////////////////////////////////////// por si se puede ocupar despues
+            public string Ocupacion { get; set; }
+
+            [DisplayName("Descripción")]
+            public string Descripción { get; set; }
+
+            [Required(ErrorMessage = "Campo requerido")]
             [DisplayName("Estatus")]
             public int Estatus { get; set; }
 

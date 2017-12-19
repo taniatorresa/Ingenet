@@ -5,65 +5,123 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<div class="portlet-body">
+    <div class="row">
+        <div class="col-md-12 col-sm-4">
+            <div class="todo-tasklist">
+                <div class="todo-tasklist-item todo-tasklist-item-border-green">
+                    <img alt="foto" width="50px" height="50px" class="todo-userpic pull-left" src="@Url.Action("Getknowimage", "Usuario", new { id = Model.UsuarioID  })" />
+                    @*<img class="todo-userpic pull-left" src="../assets/pages/media/users/avatar4.jpg" width="27px" height="27px">*@
+                    <div class="todo-tasklist-item-title"><h1> @Html.Action("Getusuario", new { id = Model.UsuarioID })</h1> </div>
+                    <div class="todo-tasklist-item-text"><h2>  @Html.DisplayFor(modelItem => Model.ContenidoPregunta) </h2> </div>
+                    <div class="todo-tasklist-item-text"><h5>  @Html.Action("ShowTemas", "Preguntas") </h5> </div>
+                    <div class="todo-tasklist-controls pull-left">
+                        <span class="todo-tasklist-date">
+                            @{
 
+                                String newfecha = "";
+                                int c = 0;
+                                String value = (Model.Creada).ToString();
+                                Char delimiter = ' ';
+                                String[] substrings = value.Split(delimiter);
+                                foreach (var substring in substrings)
+                                {
+                                    if (c == 0)
+                                    {
+                                        newfecha = substring;
+                                    }
+                                    c++;
 
-<div>
-    <h4>Pregunta</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.UsuarioID)
-        </dt>
+                                }
 
-        <dd>
-            @Html.DisplayFor(model => model.UsuarioID)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TituloPregunta)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TituloPregunta)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ContenidoPregunta)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ContenidoPregunta)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Estado)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Estado)
-        </dd>
-        @Html.Action("ShowTemas", "Preguntas")
-    
+                            }
+                            <i class="fa fa-calendar"></i> @newfecha
+                        </span>
+                        <span class="todo-tasklist-badge badge badge-roundless"> @Html.DisplayFor(modelItem => Model.TituloPregunta)</span>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+@*<div>
+        <h4>Pregunta</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.UsuarioID)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.UsuarioID)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TituloPregunta)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TituloPregunta)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ContenidoPregunta)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ContenidoPregunta)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Estado)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Estado)
+            </dd>
+
+        </dl>
+    </div>*@
 <div id="up">
-  @Html.Action("ShowRespuestas", "Preguntas")
+    @Html.Action("ShowRespuestas", "Preguntas")
 </div>
-
 <div class="row">
     <div class="col-md-12">
         <div id="DetOrd">
-   
+
         </div>
     </div>
 </div>
 
 <div>
- @Html.Partial("_CreateRespuesta", new Entities.Respuesta())
+    @Html.Partial("_CreateRespuesta", new Entities.Respuesta())
 </div>
+
+
+
+@section Styles{
+
+    <link href="~/Content/datatables.bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/datatables.min.css" rel="stylesheet" />
+    <link href="~/Content/select2.css" rel="stylesheet" />
+    <link href="~/Content/select2-bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/todo-2.min.css" rel="stylesheet" />
+
+}
 
 <!-- instala en  nuget -->
 @section Scripts{
+
+    <script src="~/Scripts/todo-2.min.js"></script>
+    <script src="~/Scripts/select2.full.min.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.min.js"></script>
+    <script src="~/Scripts/datatable.js" type="text/javascript"></script>
+    <script src="~/Scripts/datatables.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/datatables.bootstrap.js" type="text/javascript"></script>
+    <script src="~/Scripts/table-datatables-responsive.min.js"></script>
+
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 
@@ -72,15 +130,36 @@
 
     <script>
 
+
+
+
         function cerrar() {
             $('#up').hide(); //oculto mediante id
-       
+
         }
         function error() {
-            alert('Error al cargar productos');
+            alert('Se ha producido un error');
 
         }
 
 
     </script>
+
+    <script type="text/javascript">
+
+        //FECHA
+        $(document).ready(function () {
+            Date.prototype.yyyymmdd = function () {
+                var yyyy = this.getFullYear().toString();
+                var mm = (this.getMonth() + 1).toString(); // getMonth() is zero-based
+                var dd = this.getDate().toString();
+                return yyyy + "/" + (mm[1] ? mm : "0" + mm[0]) + "/" + (dd[1] ? dd : "0" + dd[0]); // padding
+            };
+            var date = new Date();
+            $("#fecha").val(date.yyyymmdd());
+        });
+
+    </script>
 }
+
+

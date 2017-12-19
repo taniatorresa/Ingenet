@@ -10,6 +10,12 @@ namespace web_application.Controllers
 {
     public class UsuarioController : Controller
     {
+        class Global
+        {
+            public static int suces = 0;
+
+        }
+
         // GET: Usuario
         [Authorize(Roles = "A")]
         public ActionResult Index()
@@ -92,6 +98,7 @@ namespace web_application.Controllers
                     tmpusuario.Descripción = usuario.Descripción;
                     tmpusuario.Correo = usuario.Correo;
                     tmpusuario.Estatus = usuario.Estatus;
+                    Global.suces = 1;
 
                     if (upFile != null && upFile.ContentLength > 0)
                     {
@@ -106,11 +113,11 @@ namespace web_application.Controllers
                         tmpusuario.Foto = null;
                     }
                     oBLL.Update(tmpusuario);
-                    Result = RedirectToAction("Index");
+                    Result = RedirectToAction("Details", new { id = usuario.UsuarioID });
                 }
                 else
                 {
-                    Result = View(usuario);
+                    Result = RedirectToAction("Details", new { id = usuario.UsuarioID });
                 }
                 return Result;
             }
@@ -120,10 +127,68 @@ namespace web_application.Controllers
             }
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditPerfilContraEstatus(Usuario usuario)
+        {
+            ActionResult Result;
+            try
+            {
+
+                Usuario tmpusuario = null;
+                UsuariosBLL oBLL = new UsuariosBLL();
+
+                if (ModelState.IsValid)
+                {
+
+                    tmpusuario = oBLL.Retrieve(usuario.UsuarioID);
+                    tmpusuario.UserName = usuario.UserName;
+                    tmpusuario.Rol = usuario.Rol;
+                    tmpusuario.Nombres = usuario.Nombres;
+                    tmpusuario.ApellidoMaterno = usuario.ApellidoMaterno;
+                    tmpusuario.ApellidoPaterno = usuario.ApellidoPaterno;
+                    tmpusuario.Contraseña = usuario.Contraseña;
+                    tmpusuario.Sexo = usuario.Sexo;
+                    tmpusuario.Ocupacion = usuario.Ocupacion;
+                    tmpusuario.Carrera = usuario.Carrera;
+                    tmpusuario.Descripción = usuario.Descripción;
+                    tmpusuario.Correo = usuario.Correo;
+                    tmpusuario.Estatus = usuario.Estatus;
+                    tmpusuario.Foto = usuario.Foto;
+
+                    oBLL.Update(tmpusuario);
+                    Global.suces = 1;
+                    Result = RedirectToAction("Details", new { id = usuario.UsuarioID });
+                }
+                else
+                {
+                    Result = RedirectToAction("Details", new { id = usuario.UsuarioID });
+                    Global.suces = 0;
+                }
+                return Result;
+            }
+            catch (Exception e)
+            {
+                return View(usuario);
+            }
+        }
+
+
+
+
         public ActionResult Details(int id)
         {
             UsuariosBLL oBLL = new UsuariosBLL();
             Usuario usuario = oBLL.Retrieve(id);
+            if (Global.suces == 1)
+            {
+                ViewBag.success = 1;
+            }
+            else
+            {
+                ViewBag.success = 0;
+            }
+            Global.suces = 0;
 
             return View(usuario);
         }
@@ -133,7 +198,7 @@ namespace web_application.Controllers
 
             UsuariosBLL oBLL = new UsuariosBLL();
             oBLL.Delete(id);
-            return RedirectToAction("Index"); //redirecionar al index cuando borres
+            return Redirect(Url.Action("Login", "Account"));
         }
 
         public FileStreamResult GetImage(int id)
@@ -144,14 +209,22 @@ namespace web_application.Controllers
             return File(new MemoryStream(bytes, 0, bytes.Length), "image/jpeg");
         }
 
-     
-        public ActionResult imagen(int id)
+        public FileStreamResult Getknowimage(int id)
         {
-
             UsuariosBLL oBLL = new UsuariosBLL();
             Usuario usuario = oBLL.Retrieve(id);
-            
-            return PartialView(usuario);
+            var bytes = usuario.Foto;
+            var nuled = new byte[] { 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20 };
+            if (bytes != null)
+            {
+                return File(new MemoryStream(bytes, 0, bytes.Length), "image/jpeg");
+            }
+            else
+            {
+                return File(new MemoryStream(nuled, 0, 0), "image/jpeg");
+            }
+
         }
+
     }
 }

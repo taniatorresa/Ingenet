@@ -3,30 +3,62 @@
     ViewBag.Title = "Detalles";
 }
 
-<h2>Detalles</h2>
-
-<dl class="dl-horizontal">
- 
-    <dt>
-        Nombre
-    </dt>
-
-    <dd>
-        @Html.DisplayFor(model => model.NombreTema)
-    </dd>
+<h2>Tema: @Model.NombreTema</h2>
 
 
-</dl>
-
-<a href="@Url.Action("Edit", "Temas",new { id=Model.TemaID})" class="btn btn-circle green-meadow btn-sm">
-    <icon class="fa fa-pencil"></icon> Editar
-</a>
-
-<a href="@Url.Action("Delete", "Temas",new { id=Model.TemaID})" class="btn btn-circle red btn-sm">
+<a class="btn red btn-outline sbold" data-toggle="modal" href="#basic">
     <icon class="fa fa-trash"></icon> Eliminar
 </a>
 
-@Html.ActionLink("Editar", "Edit", new { id = Model.TemaID }, new { @class = "btn btn-primary" }) &nbsp;
-@Html.ActionLink("Nuevo", "Create", null, new { @class = "btn btn-success" }) &nbsp;
-@Html.ActionLink("Lista de Temas", "Index", null, new { @class = "btn btn-white" })
+<a href="@Url.Action("Delete", "Temas",new { id=Model.TemaID})" id="borrar_link" style='display:none;'>
+    <icon class="fa fa-info"></icon> Borrar
+</a>
+
+
+<!-- /.modal-content -->
+<div class="modal fade" id="basic" tabindex="-1" role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Borrar cuenta</h4>
+            </div>
+            <div class="modal-body">¿Seguro de eliminar el tema <b>@Model.NombreTema </b> ? </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="button" class="btn dark btn-outline" data-dismiss="modal">No</button>
+                        <button type="button" id="borrar" class="btn red" onclick="borrar()">Borrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+@section Styles{
+    <link href="~/Content/bootstrap-table.min.css" rel="stylesheet" />
+
+}
+
+@section Scripts {
+    <script src="~/Scripts/bootstrap-table.min.js"></script>
+    <script src="~/Scripts/table-bootstrap.min.js"></script>
+
+    <script src="~/Scripts/jquery-ui.min.js"></script>
+    <script src="~/Scripts/ui-modals.min.js"></script>
+
+    <script type="text/javascript">
+        //acciones automaticas al cargar la pagina
+
+        function borrar() {
+            $("#borrar_link")[0].click();
+        }
+    </script>
+}
+
+
+
 

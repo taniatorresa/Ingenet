@@ -184,6 +184,13 @@ namespace web_application.Controllers
             List<Respuesta> respuestas = listBLL.FilterRespuestasByPreguntaID(id);
             return PartialView("_ShowRespuestas",respuestas);
         }
+
+        public ActionResult ShowRespuestasAbreviadas(int id)
+        {
+            RespuestasBLL listBLL = new RespuestasBLL();
+            List<Respuesta> respuestas = listBLL.FilterRespuestasByPreguntaID(id);
+            return PartialView("_ShowRespuestasAbreviadas", respuestas);
+        }
         public ActionResult ShowNewRespuesta(Pregunta pregunta,Respuesta respuesta)
         {
             ActionResult Result;
@@ -237,8 +244,25 @@ namespace web_application.Controllers
             return View();
 
         }
+        //controladores de RannFerii////////////////////////////////////////////////////////////////////////////////7
+        public ActionResult IndexNotificacion(int id)
+        {
 
+            PreguntasBLL oBLL = new PreguntasBLL();
+            List<Pregunta> preguntas = oBLL.RetrieveAll();
+            ViewBag.notificacion = id;
+            return View(preguntas);
 
+        }
+
+        public string Getusuario(int id)
+        {
+            UsuariosBLL mBLL = new UsuariosBLL();
+            Usuario usuario = mBLL.Retrieve(id);
+            var name = usuario.UserName;
+
+            return name;
+        }
 
     }
 }

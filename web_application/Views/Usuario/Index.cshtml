@@ -49,38 +49,61 @@
                                 <td>
                                     @if (item.Foto != null)
                                     {
-                                        
-                                                       
-                                                            <img alt="foto" width="200" src="@Url.Action("GetImage", "Usuario", new { id = item.UsuarioID })" />
-                                                   
+
+
+                                        <img alt="foto" width="100" src="@Url.Action("GetImage", "Usuario", new { id = item.UsuarioID })" />
+
                                     }
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.UserName)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Rol)
+                                    @{string rol = "2";
+                                        if ((item.Rol).Equals("A"))
+                                        {
+                                            rol = "Administrador";
+                                            <p>@rol</p>
+                                        }
+                                        else
+                                        {
+                                            rol = "Usuarios";
+                                            <p>@rol</p>
+                                        }
+                                    }
                                 </td>
                                 <td>
                                     @{string estatus = "2";
                                         if (item.Estatus == 1)
                                         {
-                                            <p>@estatus="activo"</p>
+                                            estatus = "Activo";
+                                            <p>@estatus</p>
                                         }
                                         else
                                         {
-                                            <p>@estatus="Inactivo"</p>
+                                            estatus = "Inactivo";
+                                            <p>@estatus</p>
                                         }
                                     }
-                                    
+
                                 </td>
                                 <td>
-                                    <a href="@Url.Action("Details", "Usuario",new { id=item.UsuarioID})" class="btn btn-circle blue btn-sm">
-                                        <icon class="fa fa-info"></icon> Detalles
-                                    </a>
+                                    <div class="btn-group">
+                                        <a class="btn default" href="javascript:;" data-toggle="dropdown">
+                                            <i class="fa fa-user"></i> Acciones
+                                            <i class="fa fa-angle-down"></i>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a href="@Url.Action("Details", "Usuario",new { id=item.UsuarioID})">
+                                                    <icon class="fa fa-info"></icon> Detalles
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </td>
                             </tr>
-                        }
+                                        }
                     </tbody>
                 </table>
             </div>
@@ -102,4 +125,10 @@
     <script src="~/Scripts/bootstrap-markdown.js" type="text/javascript"></script>
     <script src="~/Scripts/markdown.js" type="text/javascript"></script>
     <script src="~/Scripts/form-validation.min.js" type="text/javascript"></script>
+
+
+    <script src="~/Scripts/datatable.js" type="text/javascript"></script>
+    <script src="~/Scripts/datatables.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/datatables.bootstrap.js" type="text/javascript"></script>
+    <script src="~/Scripts/table-datatables-fixedheader.js" type="text/javascript"></script>
 }

@@ -12,13 +12,31 @@ using BLL;
 
 namespace web_application.Controllers
 {
+
     public class AccountController : Controller
     {
+        class Global
+        {
+            public static int suces = 1;
+
+        }
+
         // GET: Acount
         [AllowAnonymous]
+
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
+
+            if (Global.suces == 1)
+            {
+                ViewBag.activeusuario = 1;
+            }
+            else
+            {
+                ViewBag.activeusuario = 0;
+            }
+            ViewBag.activeusuario = 1;
             return View();
         }
         [AllowAnonymous]
@@ -36,15 +54,22 @@ namespace web_application.Controllers
                 if (user.Estatus == 1)
                 {
                     Result = SignInUser(user, data.Rememberme, returnUrl);
+                    Global.suces = 1;
+                    ViewBag.activeusuario = 1;
                 }
                 else
                 {
+                    ViewBag.activeusuario = 0;
+                    Global.suces = 0;
                     Result = View(data);
+
                 }
             }
             else
             {
+                ViewBag.activeusuario = 0;
                 Result = View(data);
+                Global.suces = 0;
             }
             return Result;
         }
@@ -74,7 +99,11 @@ namespace web_application.Controllers
 
             if (string.IsNullOrEmpty(returnUrl))
             {
-                returnUrl = Url.Action("Index", "Home");
+
+
+                returnUrl = Url.Action("IndexNotificacion", "Preguntas", new { id = user.UsuarioID });
+
+
             }
             Result = Redirect(returnUrl);
             return Result;

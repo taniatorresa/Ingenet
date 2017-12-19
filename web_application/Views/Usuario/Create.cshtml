@@ -93,7 +93,7 @@
                                         </button>
                                     </span>
                                 </div>
-                                <span class="help-block">Selecciona una fecha</span>
+                                @*<span class="help-block">Selecciona una fecha</span>*@
                                 @Html.ValidationMessageFor(model => model.FechaNacimiento, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -182,32 +182,37 @@
                             listItems2.Add(new SelectListItem
                             {
                                 Text = "Profesor",
-                                Value = "1"
+                                Value = "Profesor"
                             });
                             listItems2.Add(new SelectListItem
                             {
                                 Text = "Jefe",
-                                Value = "2",
+                                Value = "Jefe"
                             });
                             listItems2.Add(new SelectListItem
                             {
                                 Text = "Estudiante",
-                                Value = "3",
+                                Value = "Estudiante"
                             });
                             listItems2.Add(new SelectListItem
                             {
                                 Text = "Me desarrollo ejerciendo mi profesion en una empresa",
-                                Value = "4",
+                                Value = "Me desarrollo ejerciendo mi profesion en una empresa"
                             });
                             listItems2.Add(new SelectListItem
                             {
                                 Text = "Desarrollador",
-                                Value = "5",
+                                Value = "Desarrollador"
                             });
                             listItems2.Add(new SelectListItem
                             {
                                 Text = "Inventor",
-                                Value = "6",
+                                Value = "Inventor"
+                            });
+                            listItems2.Add(new SelectListItem
+                            {
+                                Text = "Tencnico-Reparador",
+                                Value = "Tencnico-Reparador"
                             });
                             listItems2.Add(new SelectListItem
                             {
@@ -265,19 +270,59 @@
                                     <span class="input-group-addon">
                                         <i class="fa fa-envelope"></i>
                                     </span>
-                                    @Html.EditorFor(model => model.Correo, new { htmlAttributes = new { @class = "form-control", required = "required", name = "name" } })
+                                    @Html.EditorFor(model => model.Correo, new { htmlAttributes = new { @class = "form-control", type = "Email", required = "required", name = "name" } })
 
                                 </div>
                                 @Html.ValidationMessageFor(model => model.Correo, "", new { @class = "text-danger" })
                             </div>
                         </div>
+                        @*<div class="form-group">
+                                <label class="control-label col-md-3"> Contraseña</label>
+                                @Html.LabelFor(model => model.Contraseña, htmlAttributes: new { @class = "control-label visible-ie8 visible-ie9" })
+                                <div class="col-md-4">
+                                    <div class="input-icon">
+                                        <i class="fa fa-lock"></i>
+                                        @Html.EditorFor(model => model.Contraseña, new { htmlAttributes = new { @class = "form-control placeholder-no-fix", id = "register_password", autocomplete = "off", Value = "", placeholder = "Nueva contraseña", maxlength = "20", required = "required" } })
+                                        @*<input class="form-control placeholder-no-fix" type="password" autocomplete="off" id="register_password" placeholder="Password" name="password" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Repita su contraseña</label>
+                                <label class="control-label col-md-3 visible-ie8 visible-ie9">Repita su contraseña</label>
+                                <div class="col-md-4">
+                                    <div class="input-icon">
+                                        <i class="fa fa-check"></i>
+                                        <input class="form-control placeholder-no-fix" type="password" autocomplete="off" maxlength="20" placeholder="Repita su contraseña" name="rpassword" required="required" />
+                                    </div>
+                                </div>
+                            </div>*@
+
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Contraseña, htmlAttributes: new { @class = "control-label col-md-3" })
+                            <label class="control-label col-md-3">Contraseña</label>
+                            @Html.LabelFor(model => model.Contraseña, htmlAttributes: new { @class = "control-label col-md-3 visible-ie8 visible-ie9" })
                             <div class="col-md-4">
-                                @Html.EditorFor(model => model.Contraseña, new { htmlAttributes = new { @class = "form-control", required = "required", name = "name" } })
-                                @Html.ValidationMessageFor(model => model.Contraseña, "", new { @class = "text-danger" })
+                                <div class="input-icon">
+                                    <i class="fa fa-lock"></i>
+                                    @Html.EditorFor(model => model.Contraseña, new { htmlAttributes = new { @class = "form-control placeholder-no-fix", id = "register_password", autocomplete = "off", Value = "", placeholder = "Contraseña", maxlength = "20", required = "required" } })
+                                    @*<input class="form-control placeholder-no-fix" type="password" autocomplete="off" id="register_password" placeholder="Password" name="password" />*@
+                                </div>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Repita la contraseña</label>
+                            <label class="control-label col-md-3 visible-ie8 visible-ie9">Contraseña</label>
+                            <div class="col-md-4">
+                                <div class="controls">
+                                    <div class="input-icon">
+                                        <i class="fa fa-check"></i>
+                                        <input class="form-control placeholder-no-fix" id="register_password2" type="password" autocomplete="off" maxlength="20" placeholder="Contraseña" name="rpassword" required="required" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             @Html.LabelFor(model => model.Foto, htmlAttributes: new { @class = "control-label col-md-3" })
                             <div class="col-md-4">
@@ -296,8 +341,7 @@
                         <div class="form-actions">
                             <div class="row">
                                 <div class="col-md-offset-3 col-md-9">
-                                    <button type="submit" class="btn green">Registrarse</button>
-                                    <button type="button" class="btn default">Cancel</button>
+                                    <button class="btn green-sharp btn-circle" data-toggle="confirmation" data-popout="true" onclick='return valideteform();'>Registrarse</button>
                                 </div>
                             </div>
                         </div>
@@ -308,12 +352,18 @@
     </div>
 </div>
 
+<button class="btn red btn-circle btn-outline sbold uppercase mt-sweetalert" data-title="La contraseña no coincide" data-message="Parece que tienes problemas" data-type="error" data-allow-outside-click="true"
+        data-confirm-button-class="btn-danger" id="alerta" style='display:none;'>
+    Parece que tienes problemas
+</button>
+
 @section Styles{
     <link href="~/Content/select2.css" rel="stylesheet" />
     <link href="~/Content/select2-bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap-wysihtml5.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap-markdown.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/sweetalert.css" rel="stylesheet" />
     @*<link href="~/Content/components-rounded-rtl.min.css" rel="stylesheet" />
         <link href="~/Content/plugins-rtl.min.css" rel="stylesheet" />*@
     @*<link href="~/Content/layout-rtl.min.css" rel="stylesheet" />
@@ -322,36 +372,26 @@
 }
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    <script src="~/Scripts/app.js"></script>
-    <script src="~/Scripts/jquery.min.js"></script>
+
+
+
     <script src="~/Scripts/select2.full.min.js" type="text/javascript"></script>
-    <script src="~/Scripts/jquery.validate.js" type="text/javascript"></script>
-    <script src="~/Scripts/additional-methods.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/additional-methods.min.js"></script>
     <script src="~/Scripts/bootstrap-datepicker.min.js" type="text/javascript"></script>
     <script src="~/Scripts/wysihtml5-0.3.0.js" type="text/javascript"></script>
     <script src="~/Scripts/bootstrap-wysihtml5.js" type="text/javascript"></script>
     <script src="~/Scripts/ckeditor.js" type="text/javascript"></script>
-    <script src="~/Scripts/bootstrap-markdown.js" type="text/javascript"></script>
     <script src="~/Scripts/markdown.js" type="text/javascript"></script>
+    <script src="~/Scripts/bootstrap-markdown.js" type="text/javascript"></script>
     <script src="~/Scripts/form-validation.js" type="text/javascript"></script>
 
+    <script src="~/Scripts/bootstrap-confirmation.min.js"></script>
+    <script src="~/Scripts/ui-confirmations.min.js"></script>
 
-    @*se iba a utilizar el formato y los scripts del "Multiple File Upload" proviniente del template pero no se contaba con la documentacion necesaria para agregar una foto a la base de datos
-        de tal manera que el registro fuese exitoso*@
-    @*<script src="~/Scripts/jquery.fancybox.pack.js"></script>
-        <script src="~/Scripts/jquery.ui.widget.js"></script>*@
-    @*<script src="~/Scripts/tmpl.min.js"></script>
-        <script src="~/Scripts/load-image.min.js"></script>
-        <script src="~/Scripts/canvas-to-blob.min.js"></script>
-        <script src="~/Scripts/jquery.blueimp-gallery.min.js"></script>
-        <script src="~/Scripts/jquery.iframe-transport.js"></script>
-        <script src="~/Scripts/jquery.fileupload.js"></script>
-        <script src="~/Scripts/jquery.fileupload-process.js"></script>
-        <script src="~/Scripts/jquery.fileupload-image.js"></script>
-        <script src="~/Scripts/jquery.fileupload-validate.js"></script>
-        <script src="~/Scripts/jquery.fileupload-ui.js"></script>*@
-    @*<script src="~/Scripts/form-fileupload.js"></script>*@
+    <script src="~/Scripts/sweetalert.min.js"></script>
+    <script src="~/Scripts/ui-sweetalert.min.js"></script>
+
 
     <script src="~/Scripts/piexif.js"></script>
     <script src="~/Scripts/piexif.min.js"></script>
@@ -363,10 +403,6 @@
     <script src="~/Scripts/es.js"></script>
     <script src="~/Scripts/theme.min.js"></script>
     <script type="text/javascript">
-        //Cuando se crea un usuario por primera vez se oculta el campo "Estatus" segun forti
-        $(document).ready(function () {
-            //$('#estatus').hide();
-        });
         $('#upFile').fileinput({
             theme: 'fa',
             language: 'es',
@@ -377,4 +413,24 @@
         });
 
     </script>
+
+    <script type="text/javascript">
+        function valideteform() {
+            var contra1 = document.getElementById("register_password").value;
+            var contra2 = document.getElementById("register_password2").value;
+            if (contra1 == contra2) {
+
+                return true;
+
+            } else {
+                $("#alerta").click();
+                return false;
+            }
+        }
+    </script>
+
+
+
+
+
 }

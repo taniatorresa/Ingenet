@@ -119,29 +119,29 @@
                                             <i class="fa fa-angle-down"></i>
                                         </a>
                                         <ul class="dropdown-menu">
-                                        @if (Principal != null && Principal.Identity.IsAuthenticated)
-                                        {
+                                            @if (Principal != null && Principal.Identity.IsAuthenticated)
+                                            {
 
-                                            <li>
-                                                <a href="@Url.Action("Details", "Preguntas", new { id = item.PreguntaID })">
-                                                    Comentar
-                                                </a>
-                                            </li>
+                                                <li>
+                                                    <a href="@Url.Action("Details", "Preguntas", new { id = item.PreguntaID })">
+                                                        Comentar
+                                                    </a>
+                                                </li>
 
 
-                                        }
-                                        else
-                                        {
+                                            }
+                                            else
+                                            {
 
-                                            <li>
-                                                <a href="@Url.Action("Create", "Usuario")">
-                                                   Registrarse
-                                                </a>
-                                            </li>
+                                                <li>
+                                                    <a href="@Url.Action("Create", "Usuario")">
+                                                        Registrarse
+                                                    </a>
+                                                </li>
 
-                                            
 
-                                        }
+
+                                            }
 
                                             @{
 
@@ -174,7 +174,7 @@
                                     @Html.Action("ShowRespuestasAbreviadas", "Preguntas", new { id = item.PreguntaID })
                                 </td>
                             </tr>
-                          }
+                                                }
 
                     </tbody>
                 </table>
@@ -360,15 +360,15 @@
 
 @if (Principal != null && Principal.Identity.IsAuthenticated)
 {
-    <input type="text" value="1" id="send_alert"  style='display:none;' />
+    <input type="text" value="1" id="send_alert" style='display:none;' />
 }
 else
 {
     <input type="text" value="0" id="send_alert" style='display:none;' />
 
 }
-    
-    @*<center> Comentado para posibles usos, ejemplo html para guardar en memoria temporal localstorage
+
+@*<center> Comentado para posibles usos, ejemplo html para guardar en memoria temporal localstorage
         <h1>Ejemplo - localStorage</h1>
 
         <input type="text" placeholder="Nombre" id="nombretxt"> <br>  <br>
@@ -394,7 +394,7 @@ else
     <link href="~/Content/select2.css" rel="stylesheet" />
     <link href="~/Content/select2-bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/todo-2.min.css" rel="stylesheet" />
-<link href="~/Content/sweetalert.css" rel="stylesheet" />
+    <link href="~/Content/sweetalert.css" rel="stylesheet" />
 
 }
 
@@ -406,8 +406,8 @@ else
     <script src="~/Scripts/datatables.min.js" type="text/javascript"></script>
     <script src="~/Scripts/datatables.bootstrap.js" type="text/javascript"></script>
     <script src="~/Scripts/table-datatables-responsive.min.js"></script>
-<script src="~/Scripts/sweetalert.min.js"></script>
-<script src="~/Scripts/ui-sweetalert.min.js"></script>
+    <script src="~/Scripts/sweetalert.min.js"></script>
+    <script src="~/Scripts/ui-sweetalert.min.js"></script>
     <script type="text/javascript">
 
         //acciones automaticas al cargar la pagina

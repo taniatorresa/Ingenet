@@ -36,7 +36,7 @@
                 <a href="#tab_1_3" data-toggle="tab"> Cuenta </a>
             </li>
             <li>
-                <a href="#tab_1_6" data-toggle="tab">Configuraciones</a>
+                <a href="#tab_1_6" data-toggle="tab">Mas</a>
             </li>
         </ul>
         <div class="tab-content">
@@ -612,7 +612,7 @@
                                 <a data-toggle="tab" href="#tab_2-2">
                                     <i class="fa fa-picture-o"></i> Foto de perfil
                                 </a>
-                            </li> 
+                            </li>
                             <li>
                                 <a data-toggle="tab" href="#tab_3-3">
                                     <i class="fa fa-lock"></i> Cambiar contraseña
@@ -628,7 +628,7 @@
                     <div class="col-md-9">
                         <div class="tab-content">
                             <div id="tab_1-1" class="tab-pane active">
-                                @using (Html.BeginForm("Edit", "Usuario", null, FormMethod.Post, new { id = "form_sample_3", @class = "form-horizontal" }))
+                                @using (Html.BeginForm("EditPerfilContraEstatus", "Usuario", null, FormMethod.Post, new { id = "form_sample_3", @class = "form-horizontal" }))
                                 {
                                     @Html.AntiForgeryToken()
 
@@ -641,12 +641,12 @@
                                             @Html.ValidationMessageFor(model => model.Nombres, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-                                        <div class="form-group">
-                                            <div class="col-md-4">
-                                                @Html.LabelFor(model => model.ApellidoPaterno, new { @class = "control-label" })
-                                                @Html.EditorFor(model => model.ApellidoPaterno, new { htmlAttributes = new { @class = "form-control", required = "required", name = "name" } })
-                                            </div>
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(model => model.ApellidoPaterno, new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.ApellidoPaterno, new { htmlAttributes = new { @class = "form-control", required = "required", name = "name" } })
                                         </div>
+                                    </div>
                                         <div class="form-group">
                                             <div class="col-md-4">
                                                 @Html.LabelFor(model => model.ApellidoMaterno, new { @class = "control-label" })
@@ -822,6 +822,7 @@
                                         </div>
                                     </div>
 
+
                                     //Ocupacion--------------------------------------------------------------
 
                                     List<SelectListItem> listItems2 = new List<SelectListItem>();
@@ -883,19 +884,19 @@
                                             </div>
                                         </div>
                                     </div>
-                                        @*<div class="form-group">
-                                                @Html.LabelFor(model => model.Estatus, new { @class = "control-label" })
-                                                <div class="form-control">
-                                                    @estatus
-                                                </div>
-                                            </div>*@
-
-                                        <div class="form-group">
-                                            <div class="col-md-4">
-                                                @Html.LabelFor(model => model.UserName, new { @class = "control-label" })
-                                                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", required = "required", name = "name" } })
+                                    @*<div class="form-group">
+                                            @Html.LabelFor(model => model.Estatus, new { @class = "control-label" })
+                                            <div class="form-control">
+                                                @estatus
                                             </div>
+                                        </div>*@
+
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(model => model.UserName, new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", required = "required", name = "name" } })
                                         </div>
+                                    </div>
 
 
                                         <div class="form-group">
@@ -906,54 +907,62 @@
                                         </div>
                                         @Html.HiddenFor(model => model.Contraseña)
                                         @Html.HiddenFor(model => model.Estatus)
-                                    @*@Html.HiddenFor(model => model.Rol)*@
+                                        @*@Html.HiddenFor(model => model.Rol)*@
 
                                 if ((Model.Rol).Equals("A"))
                                 {
-                                                <div class="form-group">
-                                                    <div class="col-md-4">
-                                                        @Html.LabelFor(model => model.Rol, new { @class = "control-label" })
-                                                        <div class="mt-radio-list" data-error-container="#form_2_membership_error">
-                                                            <label class="mt-radio">
-                                                                @*@Html.RadioButtonFor(model => model.Sexo, "true",new { @class = "membership" }) Mujer*@
-                                                                @Html.RadioButtonFor(m => m.Rol, "A", true) Administrador
-                                                                <span></span>
-                                                            </label>
-                                                            <label class="mt-radio">
-                                                                @*@Html.RadioButtonFor(model => model.Sexo, "true",new { @class = "membership" }) Mujer*@
-                                                                @Html.RadioButtonFor(m => m.Rol, "U") Usuario
-                                                                <span></span>
-                                                            </label>
-                                                            @Html.ValidationMessageFor(model => model.Sexo, "", new { @class = "text-danger" })
-                                                        </div>
-                                                        <div id="form_2_membership_error"> </div>
-                                                    </div>
-                                                </div>
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(model => model.Rol, new { @class = "control-label" })
+                                            <div class="mt-radio-list" data-error-container="#form_2_membership_error">
+                                                <label class="mt-radio">
+                                                    @*@Html.RadioButtonFor(model => model.Sexo, "true",new { @class = "membership" }) Mujer*@
+                                                    @Html.RadioButtonFor(m => m.Rol, "A", true) Administrador
+                                                    <span></span>
+                                                </label>
+                                                <label class="mt-radio">
+                                                    @*@Html.RadioButtonFor(model => model.Sexo, "true",new { @class = "membership" }) Mujer*@
+                                                    @Html.RadioButtonFor(m => m.Rol, "U") Usuario
+                                                    <span></span>
+                                                </label>
+                                                @Html.ValidationMessageFor(model => model.Sexo, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div id="form_2_membership_error"> </div>
+                                        </div>
+                                    </div>
                                 }
                                 else
                                 {
 
-                                            <div class="form-group">
-                                                <div class="col-md-4">
-                                                    @Html.LabelFor(model => model.Rol, new { @class = "control-label" })
-                                                    <div class="form-control">
-                                                       Usuario
-                                                    </div>
-
-                                                </div>
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(model => model.Rol, new { @class = "control-label" })
+                                            <div class="form-control">
+                                                Usuario
                                             </div>
-                                }
 
-                                        <div class="form-group">
-                                            <div class="col-md-4">
-                                                @Html.LabelFor(model => model.Descripción, new { @class = "control-label" })
-                                                <textarea class="form-control" rows="3" placeholder="We are KeenThemes!!!"> @Html.DisplayFor(model => model.Descripción, new { @class = "form-control" })</textarea>
-                                            </div>
                                         </div>
-                                        <div class="margiv-top-10">
-                                            <div class="col-md-4">
-                                                <input type="submit" value="Guardar cambios" class="btn green" />
-                                            </div>
+                                    </div>
+                                }
+                                @Html.HiddenFor(model => model.Foto)
+
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(model => model.Descripción, new { @class = "control-label" })
+                                            @Html.TextAreaFor(model => model.Descripción, new
+                                           {
+                                               @class = "form-control",
+                                               rows = "4"
+                                           })
+                                            @*<textarea class="form-control" rows="3" placeholder="We are KeenThemes!!!"></textarea>*@
+                                        </div>
+                                    </div>
+
+                                    int getcambiospersonales = ViewBag.success;
+                                    <input type="text" id="get_cambiospersonales" style='display:none;' value="@getcambiospersonales" />
+
+                                        <div class="form-actions">
+                                            <button type="submit" class="btn green-sharp btn-circle" data-toggle="confirmation" data-popout="true">Guardar cambios</button>
                                         </div>
                                 }
                             </div>
@@ -1001,10 +1010,10 @@
                                                 <div class="row">
                                                     @Html.LabelFor(model => model.Foto, htmlAttributes: new { @class = "control-label col-md-3" })
 
-                                                    <input id="upFile" type="file" class="file" name="upFile" value="0" required="required" />
+                                                    <input id="upFile" type="file" class="file" name="upFile" />
 
-                                                    <div class="margiv-top-10">
-                                                        <input type="submit" value="Cambiar foto" class="btn green" />
+                                                    <div class="form-actions">
+                                                        <button type="submit" class="btn green-sharp btn-circle" data-toggle="confirmation" data-popout="true">Guardar cambios</button>
                                                     </div>
 
                                                 </div>
@@ -1020,11 +1029,11 @@
 
                                                 @Html.AntiForgeryToken()
                                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                                <div class="form-group">
+                                                <div class="file-loading">
                                                     @Html.LabelFor(model => model.Foto, htmlAttributes: new { @class = "control-label col-md-3" })
-                                                    <div class="col-md-4">
-                                                        <input id="upFile" type="file" class="file" name="upFile" />
-                                                    </div>
+
+                                                    <input id="upFile" type="file" class="file" name="upFile" />
+
                                                 </div>
                                                 @Html.HiddenFor(model => model.UsuarioID)
                                                 @Html.HiddenFor(model => model.UserName)
@@ -1041,8 +1050,8 @@
                                                 @Html.HiddenFor(model => model.Estatus)
                                                 @Html.HiddenFor(model => model.Contraseña)
 
-                                                <div class="margiv-top-10">
-                                                    <input type="submit" value="Agregar foto" class="btn green" />
+                                                <div class="form-actions">
+                                                    <button type="submit" class="btn green-sharp btn-circle" data-toggle="confirmation" data-popout="true">Guardar cambios</button>
                                                 </div>
                                             }
 
@@ -1052,7 +1061,7 @@
                                 </div>
                             </div>
                             <div id="tab_3-3" class="tab-pane">
-                                @using (Html.BeginForm("Edit", "Usuario", null, FormMethod.Post, new { @class = "register-form" }))
+                                @using (Html.BeginForm("EditPerfilContraEstatus", "Usuario", null, FormMethod.Post, new { @class = "register-form" }))
                                 {
 
                                     @Html.AntiForgeryToken()
@@ -1063,20 +1072,21 @@
                                         @Html.LabelFor(model => model.Contraseña, htmlAttributes: new { @class = "control-label visible-ie8 visible-ie9" })
                                         <div class="input-icon">
                                             <i class="fa fa-lock"></i>
-                                            @Html.EditorFor(model => model.Contraseña, new { htmlAttributes = new { @class = "form-control placeholder-no-fix", id = "register_password" } })
+                                            @Html.EditorFor(model => model.Contraseña, new { htmlAttributes = new { @class = "form-control placeholder-no-fix", id = "register_password", autocomplete = "off", Value = "", placeholder = "Nueva contraseña", maxlength = "20", required = "required" } })
                                             @*<input class="form-control placeholder-no-fix" type="password" autocomplete="off" id="register_password" placeholder="Password" name="password" />*@
                                         </div>
                                     </div>
-                                        <div class="form-group">
-                                            <label class="control-label">Repita su nueva contraseña</label>
-                                            <label class="control-label visible-ie8 visible-ie9">Nueva contraseña</label>
-                                            <div class="controls">
-                                                <div class="input-icon">
-                                                    <i class="fa fa-check"></i>
-                                                    <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="Nueva contraseña" name="rpassword" />
-                                                </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Repita su nueva contraseña</label>
+                                        <label class="control-label visible-ie8 visible-ie9">Nueva contraseña</label>
+                                        <div class="controls">
+                                            <div class="input-icon">
+                                                <i class="fa fa-check"></i>
+                                                <input class="form-control placeholder-no-fix" type="password" autocomplete="off" maxlength="20" placeholder="Nueva contraseña" name="rpassword" required="required" />
                                             </div>
                                         </div>
+                                    </div>
+                                    //Campos ocultos
                                     @Html.HiddenFor(model => model.UsuarioID)
                                     @Html.HiddenFor(model => model.UserName)
                                     @Html.HiddenFor(model => model.Nombres)
@@ -1090,15 +1100,17 @@
                                     @Html.HiddenFor(model => model.Descripción)
                                     @Html.HiddenFor(model => model.Correo)
                                     @Html.HiddenFor(model => model.Estatus)
+                                    @Html.HiddenFor(model => model.Foto)
 
-                                    <div class="margin-top-10">
-                                        <input type="submit" value="Guardar contraseña" class="btn green" />
+
+                                    <div class="form-actions">
+                                        <button type="submit" class="btn green-sharp btn-circle" data-toggle="confirmation" data-popout="true">Guardar contraseña</button>
                                     </div>
                                 }
                             </div>
                             @*ESTATUS----------------------------------------------------------------------*@
                             <div id="tab_4-4" class="tab-pane">
-                                @using (Html.BeginForm("Edit", "Usuario", null, FormMethod.Post, new { }))
+                                @using (Html.BeginForm("EditPerfilContraEstatus", "Usuario", null, FormMethod.Post, new { }))
                                 {
                                     @Html.AntiForgeryToken()
                                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -1117,7 +1129,8 @@
                                     @Html.HiddenFor(model => model.Descripción)
                                     @Html.HiddenFor(model => model.Correo)
                                     @Html.HiddenFor(model => model.Contraseña)
-                                    
+                                    @Html.HiddenFor(model => model.Foto)
+
                                     <table class="table table-bordered table-striped">
                                         <tr>
                                             <td> Desabilitar cuenta temporalmente </td>
@@ -1134,11 +1147,14 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                       
                                     </table>
                                     <!--end profile-settings-->
-                                    <div class="margin-top-10">
-                                        <input type="submit" class="btn green" value=" Guardar cambios" />
+                                    <div class="form-actions">
+                                        <div class="row">
+                                            <div class="col-md-offset-3 col-md-9">
+                                                <button class="btn green-sharp btn-circle" data-toggle="confirmation" data-popout="true">Guardar cambios</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 }
                             </div>
@@ -1152,37 +1168,13 @@
                 <div class="row">
                     <div class="col-md-2">
                         <ul class="ver-inline-menu tabbable margin-bottom-10">
+
                             <li class="active">
                                 <a data-toggle="tab" href="#tab_1">
-                                    <i class="fa fa-briefcase"></i> General Questions
-                                </a>
-                                <span class="after"> </span>
-                            </li>
-                            <li>
-                                <a data-toggle="tab" href="#tab_2">
-                                    <i class="fa fa-group"></i> Membership
+                                    <i class="fa fa-info-circle"></i> Eliminar
                                 </a>
                             </li>
-                            <li>
-                                <a data-toggle="tab" href="#tab_3">
-                                    <i class="fa fa-leaf"></i> Terms Of Service
-                                </a>
-                            </li>
-                            <li>
-                                <a data-toggle="tab" href="#tab_1">
-                                    <i class="fa fa-info-circle"></i> License Terms
-                                </a>
-                            </li>
-                            <li>
-                                <a data-toggle="tab" href="#tab_2">
-                                    <i class="fa fa-tint"></i> Payment Rules
-                                </a>
-                            </li>
-                            <li>
-                                <a data-toggle="tab" href="#tab_3">
-                                    <i class="fa fa-plus"></i> Other Questions
-                                </a>
-                            </li>
+
                         </ul>
                     </div>
                     <div class="col-md-10">
@@ -1192,344 +1184,13 @@
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
                                             <h4 class="panel-title">
-                                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#accordion1_1"> 1. Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry ? </a>
+                                                <a class="btn red btn-outline sbold" data-toggle="modal" href="#basic">
+                                                    <icon class="fa fa-trash"></icon> Eliminar cuenta
+                                                </a>
+                                                <a href="@Url.Action("Delete", "Usuario",new { id=Model.UsuarioID})" id="borrar_link" style='display:none;'>
+                                                    <icon class="fa fa-info"></icon> Borrar
+                                                </a>
                                             </h4>
-                                        </div>
-                                        <div id="accordion1_1" class="panel-collapse collapse in">
-                                            <div class="panel-body">
-                                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt
-                                                laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore
-                                                wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably
-                                                haven't heard of them accusamus labore sustainable VHS.
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <h4 class="panel-title">
-                                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#accordion1_2"> 2. Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry ? </a>
-                                            </h4>
-                                        </div>
-                                        <div id="accordion1_2" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Anim pariatur cliche reprehenderit,
-                                                enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf
-                                                moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente
-                                                ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore
-                                                sustainable VHS.
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="panel panel-success">
-                                        <div class="panel-heading">
-                                            <h4 class="panel-title">
-                                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#accordion1_3"> 3. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor ? </a>
-                                            </h4>
-                                        </div>
-                                        <div id="accordion1_3" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Anim pariatur cliche reprehenderit,
-                                                enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf
-                                                moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente
-                                                ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore
-                                                sustainable VHS.
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="panel panel-warning">
-                                        <div class="panel-heading">
-                                            <h4 class="panel-title">
-                                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#accordion1_4"> 4. Wolf moon officia aute, non cupidatat skateboard dolor brunch ? </a>
-                                            </h4>
-                                        </div>
-                                        <div id="accordion1_4" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin
-                                                coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
-                                                occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="panel panel-danger">
-                                        <div class="panel-heading">
-                                            <h4 class="panel-title">
-                                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#accordion1_5"> 5. Leggings occaecat craft beer farm-to-table, raw denim aesthetic ? </a>
-                                            </h4>
-                                        </div>
-                                        <div id="accordion1_5" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin
-                                                coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
-                                                occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS. Food truck quinoa nesciunt laborum eiusmod.
-                                                Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <h4 class="panel-title">
-                                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#accordion1_6"> 6. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth ? </a>
-                                            </h4>
-                                        </div>
-                                        <div id="accordion1_6" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin
-                                                coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
-                                                occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS. Food truck quinoa nesciunt laborum eiusmod.
-                                                Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <h4 class="panel-title">
-                                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#accordion1_7"> 7. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft ? </a>
-                                            </h4>
-                                        </div>
-                                        <div id="accordion1_7" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin
-                                                coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
-                                                occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS. Food truck quinoa nesciunt laborum eiusmod.
-                                                Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="tab_2" class="tab-pane">
-                                <div id="accordion2" class="panel-group">
-                                    <div class="panel panel-warning">
-                                        <div class="panel-heading">
-                                            <h4 class="panel-title">
-                                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#accordion2_1"> 1. Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry ? </a>
-                                            </h4>
-                                        </div>
-                                        <div id="accordion2_1" class="panel-collapse collapse in">
-                                            <div class="panel-body">
-                                                <p>
-                                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa
-                                                    nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft
-                                                    beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt
-                                                    you probably haven't heard of them accusamus labore sustainable VHS.
-                                                </p>
-                                                <p>
-                                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa
-                                                    nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft
-                                                    beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt
-                                                    you probably haven't heard of them accusamus labore sustainable VHS.
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="panel panel-danger">
-                                        <div class="panel-heading">
-                                            <h4 class="panel-title">
-                                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#accordion2_2"> 2. Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry ? </a>
-                                            </h4>
-                                        </div>
-                                        <div id="accordion2_2" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Anim pariatur cliche reprehenderit,
-                                                enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf
-                                                moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente
-                                                ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore
-                                                sustainable VHS.
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="panel panel-success">
-                                        <div class="panel-heading">
-                                            <h4 class="panel-title">
-                                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#accordion2_3"> 3. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor ? </a>
-                                            </h4>
-                                        </div>
-                                        <div id="accordion2_3" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Anim pariatur cliche reprehenderit,
-                                                enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf
-                                                moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente
-                                                ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore
-                                                sustainable VHS.
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <h4 class="panel-title">
-                                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#accordion2_4"> 4. Wolf moon officia aute, non cupidatat skateboard dolor brunch ? </a>
-                                            </h4>
-                                        </div>
-                                        <div id="accordion2_4" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin
-                                                coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
-                                                occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <h4 class="panel-title">
-                                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#accordion2_5"> 5. Leggings occaecat craft beer farm-to-table, raw denim aesthetic ? </a>
-                                            </h4>
-                                        </div>
-                                        <div id="accordion2_5" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin
-                                                coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
-                                                occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS. Food truck quinoa nesciunt laborum eiusmod.
-                                                Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <h4 class="panel-title">
-                                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#accordion2_6"> 6. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth ? </a>
-                                            </h4>
-                                        </div>
-                                        <div id="accordion2_6" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin
-                                                coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
-                                                occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS. Food truck quinoa nesciunt laborum eiusmod.
-                                                Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <h4 class="panel-title">
-                                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#accordion2_7"> 7. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft ? </a>
-                                            </h4>
-                                        </div>
-                                        <div id="accordion2_7" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin
-                                                coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
-                                                occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS. Food truck quinoa nesciunt laborum eiusmod.
-                                                Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="tab_3" class="tab-pane">
-                                <div id="accordion3" class="panel-group">
-                                    <div class="panel panel-danger">
-                                        <div class="panel-heading">
-                                            <h4 class="panel-title">
-                                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#accordion3_1"> 1. Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry ? </a>
-                                            </h4>
-                                        </div>
-                                        <div id="accordion3_1" class="panel-collapse collapse in">
-                                            <div class="panel-body">
-                                                <p>
-                                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa
-                                                    nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
-                                                </p>
-                                                <p>
-                                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa
-                                                    nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
-                                                </p>
-                                                <p>
-                                                    Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica,
-                                                    craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth
-                                                    nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="panel panel-success">
-                                        <div class="panel-heading">
-                                            <h4 class="panel-title">
-                                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#accordion3_2"> 2. Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry ? </a>
-                                            </h4>
-                                        </div>
-                                        <div id="accordion3_2" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Anim pariatur cliche reprehenderit,
-                                                enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf
-                                                moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente
-                                                ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore
-                                                sustainable VHS.
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <h4 class="panel-title">
-                                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#accordion3_3"> 3. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor ? </a>
-                                            </h4>
-                                        </div>
-                                        <div id="accordion3_3" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Anim pariatur cliche reprehenderit,
-                                                enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf
-                                                moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente
-                                                ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore
-                                                sustainable VHS.
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <h4 class="panel-title">
-                                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#accordion3_4"> 4. Wolf moon officia aute, non cupidatat skateboard dolor brunch ? </a>
-                                            </h4>
-                                        </div>
-                                        <div id="accordion3_4" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin
-                                                coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
-                                                occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <h4 class="panel-title">
-                                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#accordion3_5"> 5. Leggings occaecat craft beer farm-to-table, raw denim aesthetic ? </a>
-                                            </h4>
-                                        </div>
-                                        <div id="accordion3_5" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin
-                                                coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
-                                                occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS. Food truck quinoa nesciunt laborum eiusmod.
-                                                Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <h4 class="panel-title">
-                                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#accordion3_6"> 6. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth ? </a>
-                                            </h4>
-                                        </div>
-                                        <div id="accordion3_6" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin
-                                                coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
-                                                occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS. Food truck quinoa nesciunt laborum eiusmod.
-                                                Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <h4 class="panel-title">
-                                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#accordion3_7"> 7. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft ? </a>
-                                            </h4>
-                                        </div>
-                                        <div id="accordion3_7" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin
-                                                coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
-                                                occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS. Food truck quinoa nesciunt laborum eiusmod.
-                                                Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1545,116 +1206,196 @@
 
 
 
-
-
-<h2>Details</h2>
-
-<div>
-    <h4>Usuario</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.UserName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UserName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Rol)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Rol)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Nombres)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Nombres)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ApellidoPaterno)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ApellidoPaterno)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ApellidoMaterno)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ApellidoMaterno)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Contraseña)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Contraseña)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Sexo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Sexo)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Ocupacion)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Ocupacion)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Carrera)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Carrera)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.FechaNacimiento)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FechaNacimiento)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Descripción)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Foto)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Correo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Correo)
-        </dd>
-
-    </dl>
+<div class="row" style='display:none;'>
+    <div class="col-md-12">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-bubble font-green-sharp"></i>
+                    <span class="caption-subject font-green-sharp sbold">Toastr Notification Demo</span>
+                </div>
+                <div class="actions">
+                    <div class="btn-group">
+                        <a class="btn green-haze btn-outline btn-circle btn-sm" href="javascript:;" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                            Actions
+                            <i class="fa fa-angle-down"></i>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li>
+                                <a href="javascript:;"> Option 1</a>
+                            </li>
+                            <li class="divider"> </li>
+                            <li>
+                                <a href="javascript:;">Option 2</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;">Option 3</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;">Option 4</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label" for="title">Title</label>
+                            <input id="title" type="text" class="form-control" value="Cambios" placeholder="Enter a title ..." />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="message">Message</label>
+                            <textarea class="form-control" id="message" rows="3" placeholder="Enter a message ...">Guardados con exito</textarea>
+                        </div>
+                        <div class="form-group">
+                            <div class="mt-checkbox-list">
+                                <label class="mt-checkbox mt-checkbox-outline" for="closeButton">
+                                    <input id="closeButton" type="checkbox" value="checked" checked class="input-small" />Close Button
+                                    <span></span>
+                                </label>
+                                <label class="mt-checkbox mt-checkbox-outline" for="addBehaviorOnToastClick">
+                                    <input id="addBehaviorOnToastClick" type="checkbox" value="checked" class="input-small" />Add behavior on toast click
+                                    <span></span>
+                                </label>
+                                <label class="mt-checkbox mt-checkbox-outline" for="debugInfo">
+                                    <input id="debugInfo" type="checkbox" value="checked" class="input-small" />Debug
+                                    <span></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group" id="toastTypeGroup">
+                            <label>Toast Type</label>
+                            <div class="mt-radio-list">
+                                <label class="mt-radio mt-radio-outline">
+                                    <input type="radio" name="toasts" value="success" />Success
+                                    <span></span>
+                                </label>
+                                <label class="mt-radio mt-radio-outline">
+                                    <input type="radio" name="toasts" value="info" checked />Info
+                                    <span></span>
+                                </label>
+                                <label class="mt-radio mt-radio-outline">
+                                    <input type="radio" name="toasts" value="warning" />Warning
+                                    <span></span>
+                                </label>
+                                <label class="mt-radio mt-radio-outline">
+                                    <input type="radio" name="toasts" value="error" />Error
+                                    <span></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group" id="positionGroup">
+                            <label>Position</label>
+                            <div class="mt-radio-list">
+                                <label class="mt-radio mt-radio-outline">
+                                    <input type="radio" name="positions" value="toast-top-right" />Top Right
+                                    <span></span>
+                                </label>
+                                <label class="mt-radio mt-radio-outline">
+                                    <input type="radio" name="positions" value="toast-bottom-right" checked />Bottom Right
+                                    <span></span>
+                                </label>
+                                <label class="mt-radio mt-radio-outline">
+                                    <input type="radio" name="positions" value="toast-bottom-left" />Bottom Left
+                                    <span></span>
+                                </label>
+                                <label class="mt-radio mt-radio-outline">
+                                    <input type="radio" name="positions" value="toast-top-left" />Top Left
+                                    <span></span>
+                                </label>
+                                <label class="mt-radio mt-radio-outline">
+                                    <input type="radio" name="positions" value="toast-top-center" />Top Center
+                                    <span></span>
+                                </label>
+                                <label class="mt-radio mt-radio-outline">
+                                    <input type="radio" name="positions" value="toast-bottom-center" />Bottom Center
+                                    <span></span>
+                                </label>
+                                <label class="mt-radio mt-radio-outline" l>
+                                    <input type="radio" name="positions" value="toast-top-full-width" />Top Full Width
+                                    <span></span>
+                                </label>
+                                <label class="mt-radio mt-radio-outline">
+                                    <input type="radio" name="positions" value="toast-bottom-full-width" />Bottom Full Width
+                                    <span></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <div class="controls">
+                                <label class="control-label" for="showEasing">Show Easing</label>
+                                <input id="showEasing" type="text" placeholder="swing, linear" class="form-control input-small" value="swing" />
+                                <label class="control-label" for="hideEasing">Hide Easing</label>
+                                <input id="hideEasing" type="text" placeholder="swing, linear" class="form-control input-small" value="linear" />
+                                <label class="control-label" for="showMethod">Show Method</label>
+                                <input id="showMethod" type="text" placeholder="show, fadeIn, slideDown" class="form-control input-small" value="fadeIn" />
+                                <label class="control-label" for="hideMethod">Hide Method</label>
+                                <input id="hideMethod" type="text" placeholder="hide, fadeOut, slideUp" class="form-control input-small" value="fadeOut" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <div class="controls">
+                                <label class="control-label" for="showDuration">Show Duration</label>
+                                <input id="showDuration" type="text" placeholder="ms" class="form-control input-small" value="1000" />
+                                <label class="control-label" for="hideDuration">Hide Duration</label>
+                                <input id="hideDuration" type="text" placeholder="ms" class="form-control input-small" value="1000" />
+                                <label class="control-label" for="timeOut">Time out</label>
+                                <input id="timeOut" type="text" placeholder="ms" class="form-control input-small" value="5000" />
+                                <label class="control-label" for="timeOut">Extended time out</label>
+                                <input id="extendedTimeOut" type="text" placeholder="ms" class="form-control input-small" value="1000" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="btn green" id="showtoast">Show Toast</button>
+                        <button type="button" class="btn btn-outline dark" id="cleartoasts">Clear Toasts</button>
+                        <button type="button" class="btn btn-outline dark" id="clearlasttoast">Clear Last Toast</button>
+                    </div>
+                </div>
+                <div class="row margin-top-30">
+                    <div class="col-md-12">
+                        <pre id='toastrOptions' class="well">Settings...
+						</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.UsuarioID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+<!-- /.modal-content -->
+<div class="modal fade" id="basic" tabindex="-1" role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Borrar cuenta</h4>
+            </div>
+            <div class="modal-body">¿Seguro de eliminar tu cuenta  <b>@Model.UserName </b> ? </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="button" class="btn dark btn-outline" data-dismiss="modal">No</button>
+                        <button type="button" id="borrar" class="btn red" onclick="borrar()">Borrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
 
 
 @section Styles{
@@ -1668,24 +1409,50 @@
 
 }
 
-@section Scripts {
-    @*@Scripts.Render("~/bundles/jqueryval")*@
-    <script src="~/Scripts/jquery.validate.min.js" type="text/javascript"></script>
-    <script src="~/Scripts/additional-methods.min.js" type="text/javascript"></script>
+@section Scripts{
+
+
+
+
     <script src="~/Scripts/select2.full.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/additional-methods.min.js"></script>
     <script src="~/Scripts/bootstrap-datepicker.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/wysihtml5-0.3.0.js" type="text/javascript"></script>
+    <script src="~/Scripts/bootstrap-wysihtml5.js" type="text/javascript"></script>
+    <script src="~/Scripts/ckeditor.js" type="text/javascript"></script>
+    <script src="~/Scripts/markdown.js" type="text/javascript"></script>
+    <script src="~/Scripts/bootstrap-markdown.js" type="text/javascript"></script>
+    <script src="~/Scripts/form-validation.js" type="text/javascript"></script>
+
+
     <script src="~/Scripts/components-select2.min.js"></script>
     <script src="~/Scripts/jquery.backstretch.min.js"></script>
     <script src="~/Scripts/login-4.min.js"></script>
-    <script src="~/Scripts/form-validation.min.js" type="text/javascript"></script>
 
-    
+    @*<script src="~/Scripts/jquery.validate.min.js" type="text/javascript"></script>
+        <script src="~/Scripts/additional-methods.min.js" type="text/javascript"></script>
+         <script src="~/Scripts/select2.full.min.js" type="text/javascript"></script>
+         <script src="~/Scripts/bootstrap-datepicker.min.js" type="text/javascript"></script>
+         <script src="~/Scripts/components-select2.min.js"></script>
+         <script src="~/Scripts/jquery.backstretch.min.js"></script>
+        <script src="~/Scripts/login-4.min.js"></script>
+         <script src="~/Scripts/form-validation.min.js" type="text/javascript"></script>*@
+
+    <script src="~/Scripts/bootstrap-confirmation.min.js"></script>
+    <script src="~/Scripts/ui-confirmations.min.js"></script>
+
+    <script src="~/Scripts/jquery-ui.min.js"></script>
+    <script src="~/Scripts/ui-modals.min.js"></script>
+
+
+
     <script src="~/Scripts/wysihtml5-0.3.0.js" type="text/javascript"></script>
     <script src="~/Scripts/bootstrap-wysihtml5.js" type="text/javascript"></script>
     <script src="~/Scripts/ckeditor.js" type="text/javascript"></script>
     <script src="~/Scripts/bootstrap-markdown.js" type="text/javascript"></script>
     <script src="~/Scripts/markdown.js" type="text/javascript"></script>
-   
+
 
     @*//foto*@
     <script src="~/Scripts/piexif.js"></script>
@@ -1698,19 +1465,33 @@
     <script src="~/Scripts/es.js"></script>
     <script src="~/Scripts/theme.min.js"></script>
     <script type="text/javascript">
-    //Cuando se crea un usuario por primera vez se oculta el campo "Estatus" segun forti
-    $(document).ready(function () {
-        //$('#estatus').hide();
-    });
-    $('#upFile').fileinput({
-        theme: 'fa',
-        language: 'es',
-        showUpload: false,
-        maxFileSize: 3000,
-        maxFilesNum: 1,
-        allowedFileExtensions: ['jpg', 'png']
-    });
+        //Cuando se crea un usuario por primera vez se oculta el campo "Estatus" segun forti
+        $(document).ready(function () {
+            //$('#estatus').hide();
+        });
+        $('#upFile').fileinput({
+            theme: 'fa',
+            language: 'es',
+            showUpload: false,
+            maxFileSize: 3000,
+            maxFilesNum: 1,
+            allowedFileExtensions: ['jpg', 'png']
+        });
 
+    </script>
+    <script type="text/javascript">
+        //acciones automaticas al cargar la pagina
+        window.onload = function () {
+
+            var cambiospersonales = document.getElementById("get_cambiospersonales").value;
+            console.log(cambiospersonales);
+            if (cambiospersonales == 1) {
+                $("#showtoast").click();
+            };
+        };
+        function borrar() {
+            $("#borrar_link")[0].click();
+        }
     </script>
 
 

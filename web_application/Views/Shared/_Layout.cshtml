@@ -2,7 +2,7 @@
 @using System.Security.Claims;
 @using System.Threading;
 @{
-    AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.Email;
+    //AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.Email;
     AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;
     var Usuario = "";
     var Rol = "";
@@ -39,7 +39,10 @@
     <link href="~/Content/components-rounded.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-switch.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/editor.css" rel="stylesheet" type="text/css" />
-
+    <!--Notificaciones-->
+    <link href="~/Content/toastr.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-modal-bs3patch.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-modal.css" rel="stylesheet" />
     <!--Fotos-->
     <link href="~/Content/fileinput.css" rel="stylesheet" />
     @RenderSection("Styles", required: false)
@@ -78,7 +81,7 @@
             <div class="page-header-inner ">
                 <!-- BEGIN LOGO -->
                 <div class="page-logo">
-                    <a href="@Url.Action("Index", "Home")">
+                    <a href="@Url.Action("Index", "Preguntas")">
                         <img src="~/img/ingenet_small_5.png" alt="logo" class="logo-default" />
                     </a>
                     <div class="menu-toggler sidebar-toggler">
@@ -104,6 +107,35 @@
 
                         @if (Principal != null && Principal.Identity.IsAuthenticated)
                         {
+
+
+                            @*NOTIFICACIONES TIMEOUT, tiempo maximo de actividad del usuario : 5seg/////METRONIC/////////////////////////////////////////////7*@
+                            <div class="modal fade" id="idle-timeout-dialog" data-backdrop="static">
+                                <div class="modal-dialog modal-small">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Tu sesión está apunto de expirar por inactividad</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>
+                                                <i class="fa fa-warning font-red"></i> Tu sesión sera bloqueada en
+                                                <span id="idle-timeout-counter"></span> segundos.
+                                            </p>
+                                            <p>¿Quieres continuar con tu sesión? </p>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <div class="modal-footer">
+                                                    <button id="idle-timeout-dialog-logout" type="button" class="btn dark btn-outline sbold uppercase">No</button>
+                                                    <button id="idle-timeout-dialog-keepalive" type="button" class="btn green btn-outline sbold uppercase" data-dismiss="modal">Si</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @*NOTIFICACIONES TIMEOUT, tiempo maximo de actividad del usuario : 5seg/////METRONIC///////////END ///////////////////////7*@
 
                             <li class="dropdown dropdown-extended dropdown-notification" id="header_notification_bar">
                                 <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
@@ -408,12 +440,12 @@
                             <li class="dropdown dropdown-user">
                                 <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                                     @*@if (Model.Foto != null)
-                                    { 
-                                        <img alt="" class="img-circle" src="@Url.Action("GetImage", "Usuario", new { id = Model.UsuarioID })" />
+                                        {
+                                            <img alt="" class="img-circle" src="@Url.Action("GetImage", "Usuario", new { id = Model.UsuarioID })" />
 
-                                    }*@
+                                        }*@
 
-                                  @*@{ Html.RenderAction("imagen", "Usuario", new { requestId = @ID }); }*@
+                                    @*@{ Html.RenderAction("imagen", "Usuario", new { requestId = @ID }); }*@
 
                                     <span class="username username-hide-on-mobile">  @Usuario </span>
                                     <i class="fa fa-angle-down"></i>
@@ -436,33 +468,33 @@
 
 
                                     @*<li>
-                                        <a href="@Url.Action("Create", "Preguntas",new { id = @ID })">
-                                            <i class="icon-user"></i> Preguntas
-                                        </a>
-                                    </li>*@
+                                            <a href="@Url.Action("Create", "Preguntas",new { id = @ID })">
+                                                <i class="icon-user"></i> Preguntas
+                                            </a>
+                                        </li>*@
                                     @*<li>
-                                        <a href="app_calendar.html">
-                                            <i class="icon-calendar"></i> My Calendar
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="app_inbox.html">
-                                            <i class="icon-envelope-open"></i> My Inbox
-                                            <span class="badge badge-danger"> 3 </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="app_todo.html">
-                                            <i class="icon-rocket"></i> My Tasks
-                                            <span class="badge badge-success"> 7 </span>
-                                        </a>
-                                    </li>
-                                    <li class="divider"> </li>
-                                    <li>
-                                        <a href="page_user_lock_1.html">
-                                            <i class="icon-lock"></i> Lock Screen
-                                        </a>
-                                    </li>*@
+                                            <a href="app_calendar.html">
+                                                <i class="icon-calendar"></i> My Calendar
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="app_inbox.html">
+                                                <i class="icon-envelope-open"></i> My Inbox
+                                                <span class="badge badge-danger"> 3 </span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="app_todo.html">
+                                                <i class="icon-rocket"></i> My Tasks
+                                                <span class="badge badge-success"> 7 </span>
+                                            </a>
+                                        </li>
+                                        <li class="divider"> </li>
+                                        <li>
+                                            <a href="page_user_lock_1.html">
+                                                <i class="icon-lock"></i> Lock Screen
+                                            </a>
+                                        </li>*@
                                     <li>
                                         <a href="@Url.Action("LogOff", "Account")">
                                             <i class="icon-logout"></i>Cerrar sesión
@@ -546,28 +578,20 @@
                         <li class="nav-item start ">
                             <a href="javascript:;" class="nav-link nav-toggle">
                                 <i class="icon-home"></i>
-                                <span class="title">Dashboard</span>
+                                <span class="title">Preguntas</span>
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
                                 <li class="nav-item start ">
-                                    <a href="index.html" class="nav-link ">
+                                    <a href="@Url.Action("Create", "Preguntas")" class="nav-link ">
                                         <i class="icon-bar-chart"></i>
-                                        <span class="title">Dashboard 1</span>
+                                        <span class="title">Preguntar</span>
                                     </a>
                                 </li>
                                 <li class="nav-item start ">
-                                    <a href="dashboard_2.html" class="nav-link ">
+                                    <a href="@Url.Action("Index", "Preguntas")" class="nav-link ">
                                         <i class="icon-bulb"></i>
-                                        <span class="title">Dashboard 2</span>
-                                        <span class="badge badge-success">1</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item start ">
-                                    <a href="dashboard_3.html" class="nav-link ">
-                                        <i class="icon-graph"></i>
-                                        <span class="title">Dashboard 3</span>
-                                        <span class="badge badge-danger">5</span>
+                                        <span class="title">Home</span>
                                     </a>
                                 </li>
                             </ul>
@@ -594,207 +618,15 @@
                         </li>
                         <li class="nav-item  ">
                             <a href="javascript:;" class="nav-link nav-toggle">
-                                <i class="icon-puzzle"></i>
-                                <span class="title">Components</span>
-                                <span class="arrow"></span>
-                            </a>
-                            <ul class="sub-menu">
-                                <li class="nav-item  ">
-                                    <a href="components_date_time_pickers.html" class="nav-link ">
-                                        <span class="title">Date & Time Pickers</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item  ">
-                                    <a href="components_color_pickers.html" class="nav-link ">
-                                        <span class="title">Color Pickers</span>
-                                        <span class="badge badge-danger">2</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item  ">
-                                    <a href="components_select2.html" class="nav-link ">
-                                        <span class="title">Select2 Dropdowns</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item  ">
-                                    <a href="components_bootstrap_select.html" class="nav-link ">
-                                        <span class="title">Bootstrap Select</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item  ">
-                                    <a href="components_multi_select.html" class="nav-link ">
-                                        <span class="title">Bootstrap Multiple Select</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item  ">
-                                    <a href="components_bootstrap_multiselect_dropdown.html" class="nav-link ">
-                                        <span class="title">Bootstrap Multiselect Dropdowns</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item  ">
-                                    <a href="components_bootstrap_select_splitter.html" class="nav-link ">
-                                        <span class="title">Select Splitter</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item  ">
-                                    <a href="components_clipboard.html" class="nav-link ">
-                                        <span class="title">Clipboard</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item  ">
-                                    <a href="components_typeahead.html" class="nav-link ">
-                                        <span class="title">Typeahead Autocomplete</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item  ">
-                                    <a href="components_bootstrap_tagsinput.html" class="nav-link ">
-                                        <span class="title">Bootstrap Tagsinput</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item  ">
-                                    <a href="components_bootstrap_switch.html" class="nav-link ">
-                                        <span class="title">Bootstrap Switch</span>
-                                        <span class="badge badge-success">6</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item  ">
-                                    <a href="components_bootstrap_maxlength.html" class="nav-link ">
-                                        <span class="title">Bootstrap Maxlength</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item  ">
-                                    <a href="components_bootstrap_fileinput.html" class="nav-link ">
-                                        <span class="title">Bootstrap File Input</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item  ">
-                                    <a href="components_bootstrap_touchspin.html" class="nav-link ">
-                                        <span class="title">Bootstrap Touchspin</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item  ">
-                                    <a href="components_form_tools.html" class="nav-link ">
-                                        <span class="title">Form Widgets & Tools</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item  ">
-                                    <a href="components_context_menu.html" class="nav-link ">
-                                        <span class="title">Context Menu</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item  ">
-                                    <a href="components_editors.html" class="nav-link ">
-                                        <span class="title">Markdown & WYSIWYG Editors</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item  ">
-                                    <a href="components_code_editors.html" class="nav-link ">
-                                        <span class="title">Code Editors</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item  ">
-                                    <a href="components_ion_sliders.html" class="nav-link ">
-                                        <span class="title">Ion Range Sliders</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item  ">
-                                    <a href="components_noui_sliders.html" class="nav-link ">
-                                        <span class="title">NoUI Range Sliders</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item  ">
-                                    <a href="components_knob_dials.html" class="nav-link ">
-                                        <span class="title">Knob Circle Dials</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item  ">
-                            <a href="javascript:;" class="nav-link nav-toggle">
                                 <i class="icon-settings"></i>
-                                <span class="title">Form Stuff</span>
+                                <span class="title">Configuracion</span>
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
                                 <li class="nav-item  ">
-                                    <a href="form_controls.html" class="nav-link ">
-                                        <span class="title">
-                                            Bootstrap Form
-                                            <br>Controls
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="nav-item  ">
-                                    <a href="form_controls_md.html" class="nav-link ">
-                                        <span class="title">
-                                            Material Design
-                                            <br>Form Controls
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="nav-item  ">
-                                    <a href="form_validation.html" class="nav-link ">
-                                        <span class="title">Form Validation</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item  ">
-                                    <a href="form_validation_states_md.html" class="nav-link ">
-                                        <span class="title">
-                                            Material Design
-                                            <br>Form Validation States
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="nav-item  ">
-                                    <a href="form_validation_md.html" class="nav-link ">
-                                        <span class="title">
-                                            Material Design
-                                            <br>Form Validation
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="nav-item  ">
-                                    <a href="form_layouts.html" class="nav-link ">
-                                        <span class="title">Form Layouts</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item  ">
-                                    <a href="form_repeater.html" class="nav-link ">
-                                        <span class="title">Form Repeater</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item  ">
-                                    <a href="form_input_mask.html" class="nav-link ">
-                                        <span class="title">Form Input Mask</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item  ">
-                                    <a href="form_editable.html" class="nav-link ">
-                                        <span class="title">Form X-editable</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item  ">
-                                    <a href="form_wizard.html" class="nav-link ">
-                                        <span class="title">Form Wizard</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item  ">
-                                    <a href="form_icheck.html" class="nav-link ">
-                                        <span class="title">iCheck Controls</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item  ">
-                                    <a href="form_image_crop.html" class="nav-link ">
-                                        <span class="title">Image Cropping</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item  ">
-                                    <a href="form_fileupload.html" class="nav-link ">
-                                        <span class="title">Multiple File Upload</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item  ">
-                                    <a href="form_dropzone.html" class="nav-link ">
-                                        <span class="title">Dropzone File Upload</span>
+                                    <a href="@Url.Action("Details", "Usuario",new { id = ID })" class="nav-link ">
+                                        <i class="icon-bulb"></i>
+                                        <span class="title">Perfil</span>
                                     </a>
                                 </li>
                             </ul>
@@ -841,17 +673,37 @@
         </div>
 
     </div>
-   
+
+
+
+    <!-- scripts globales -->
+    <script src="~/Scripts/respond.min.js"></script>
+    <script src="~/Scripts/excanvas.min.js"></script>
+    <script src="~/Scripts/ie8.fix.min.js"></script>
     <script src="~/Scripts/jquery.min.js" type="text/javascript"></script>
     <script src="~/Scripts/bootstrap.min.js" type="text/javascript"></script>
     <script src="~/Scripts/js.cookie.min.js" type="text/javascript"></script>
     <script src="~/Scripts/jquery.slimscroll.min.js" type="text/javascript"></script>
     <script src="~/Scripts/jquery.blockui.min.js" type="text/javascript"></script>
     <script src="~/Scripts/bootstrap-switch.min.js" type="text/javascript"></script>
-    <!-- END CORE PLUGINS -->
-    <!-- BEGIN THEME GLOBAL SCRIPTS -->
+    <!-- TOASTr-->
     <script src="~/Scripts/app.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/toastr.min.js"></script>
+    <script src="~/Scripts/ui-toastr.min.js"></script>
+
+    @*TimeOUT DESCOMENTALO PA QUE SIRVA*@
+    @*@if (Principal != null && Principal.Identity.IsAuthenticated)
+    {
+        <script src="~/Scripts/jquery.idletimeout.js"></script>
+        <script src="~/Scripts/jquery.idletimer.js"></script>
+        <script src="~/Scripts/bootstrap-modalmanager.js"></script>
+
+        <script src="~/Scripts/bootstrap-modal.js"></script>
+        <script src="~/Scripts/ui-idletimeout.min.js"></script>
+    }*@
+
     @RenderSection("Scripts", required: false)
+
     <!-- END THEME GLOBAL SCRIPTS -->
     <!-- BEGIN THEME LAYOUT SCRIPTS -->
     <script src="~/Scripts/layout.min.js" type="text/javascript"></script>
@@ -860,11 +712,8 @@
     <script src="~/Scripts/quick-nav.min.js" type="text/javascript"></script>
 
 
-    <script src="~/Scripts/datatable.js" type="text/javascript"></script>
-    <script src="~/Scripts/datatables.min.js" type="text/javascript"></script>
-    <script src="~/Scripts/datatables.bootstrap.js" type="text/javascript"></script>
-    <script src="~/Scripts/table-datatables-fixedheader.js" type="text/javascript"></script>
-    <script src="~/Scripts/config.js" type="text/javascript"></script>
+
+    @*<script src="~/Scripts/config.js" type="text/javascript"></script>*@
 
     <!--scripts para las notificaciones-->
     @*<script src="~/Scripts/ui-notific8.min.js"></script>
@@ -888,6 +737,6 @@
             });
         </script>*@
 
-    
+
 </body>
 </html>

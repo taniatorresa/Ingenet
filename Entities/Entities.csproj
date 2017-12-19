@@ -92,6 +92,7 @@
     <Compile Include="Usuario.cs">
       <DependentUpon>IngenetDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="VTema.cs" />
     <Compile Include="VUsuario.cs" />
   </ItemGroup>
   <ItemGroup>

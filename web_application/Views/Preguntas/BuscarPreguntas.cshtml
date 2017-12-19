@@ -7,22 +7,23 @@
 <div class="row">
     <div class="col-md-12">
         @using (Ajax.BeginForm("BuscarPreguntasPorTema", "Preguntas", null,
-                     new AjaxOptions
-                     {
-                         HttpMethod = "POST",
-                         UpdateTargetId = "Lista",
-                         OnSuccess = "cerrar",
-                         OnFailure = "error",
-                         AllowCache = false,
-                     }, new { role = "form", id = "Formulario" }))
+                         new AjaxOptions
+                         {
+                             HttpMethod = "POST",
+                             UpdateTargetId = "Lista",
+                             OnSuccess = "cerrar",
+                             OnFailure = "error",
+                             AllowCache = true,
+                         }, new { role = "form", id = "Formulario" }))
         {
             <div class="row">
 
                 <div class="form-group col-md-3">
-                    @Html.LabelFor(model => model.TemaID, new { @class = "control-label" })
-                    @Html.DropDownList("TemaID", null, "- Seleccione una categoria -",
-                     new { @class = "form-control" })
+                    <label class="control-label">Tema</label>
+                    @Html.DropDownList("TemaID", null, "--Seleccionar--", new { @class = "form-control select2me", name = "options2", required = "required" })
                 </div>
+
+                
 
                 <div class="form-group col-md-1">
                     <input type="submit" class="btn btn-success" name="buscar" value="Buscar"
@@ -34,26 +35,84 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-12">
+
         <div id="Lista">
 
         </div>
-    </div>
-</div>
 
-<!-- instala en  nuget -->
-@section Scripts{
-    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
-    <script>
 
-    function cerrar()
-    {
-        alert('funcion cerrarda');
-    }
-    function error()
-    {
-        alert('Error al cargar productos');
-    }
-    </script>
+
+<button class="btn red btn-circle btn-outline sbold uppercase mt-sweetalert" data-title="No encontramos preguntas :/" data-message="Intenta otra" data-type="error" data-allow-outside-click="true"
+        data-confirm-button-class="btn-danger" id="alerta"  style='display:none;'>
+    Parece que tienes problemas
+</button>
+
+<button class="btn btn-circle green-haze btn-outline sbold uppercase mt-sweetalert" data-title="Hemos encontrado algo :D" data-message="Busqueda exitosa" data-type="success" data-allow-outside-click="true"
+        data-confirm-button-class="btn-success" id="suces"  style='display:none;'>
+    Icon Success Alert
+</button>
+@section Styles{
+
+    <link href="~/Content/datatables.bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/datatables.min.css" rel="stylesheet" />
+    <link href="~/Content/select2.css" rel="stylesheet" />
+    <link href="~/Content/select2-bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/todo-2.min.css" rel="stylesheet" />
+    <link href="~/Content/sweetalert.css" rel="stylesheet" />
+
+}
+
+@section Scripts {
+
+
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+
+    <script src="~/Scripts/todo-2.min.js"></script>
+    <script src="~/Scripts/select2.full.min.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.min.js"></script>
+    <script src="~/Scripts/datatable.js" type="text/javascript"></script>
+    <script src="~/Scripts/datatables.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/datatables.bootstrap.js" type="text/javascript"></script>
+    <script src="~/Scripts/table-datatables-responsive.min.js"></script>
+    <script src="~/Scripts/sweetalert.min.js"></script>
+    <script src="~/Scripts/ui-sweetalert.min.js"></script>
+    @*<script type="text/javascript">
+
+        //acciones automaticas al cargar la pagina
+        window.onload = function () {
+
+            var alerta = document.getElementById("send_alert").value;
+            if (alerta == 0) {
+                $("#alerta").click();
+            }
+
+            /*Limpiando los campos o inputs*/
+            //document.getElementById("nombretxt").value = "";
+            //document.getElementById("apellidotxt").value = "";
+
+            var notificacion = localStorage.getItem("Notificacion");
+            var notif = document.getElementById("get_notificacion").value;
+            console.log(notificacion);
+            console.log(notif);
+            if (notificacion != notif) {
+                $("#showtoast").click();
+                localStorage.setItem("Notificacion", notif);
+            };
+        };
+    </script>*@
+
+
+
+<script>
+
+        function cerrar() {
+            $("#suces").click();
+        }
+        function error() {
+            $("#alerta").click();
+        }
+</script>
+
+
 }

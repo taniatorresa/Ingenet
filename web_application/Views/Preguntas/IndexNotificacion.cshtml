@@ -159,7 +159,8 @@
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a href="@Url.Action("Delete", "Preguntas", new { id = item.PreguntaID })">
+                                                        <a class="mt-sweetalert" data-title="Error al eliminar" data-message="No puedes eliminar una dependencia relacional" data-type="error" data-allow-outside-click="true"
+                                                           data-confirm-button-class="btn-danger" id="alerta">
                                                             Eliminar
                                                         </a>
                                                     </li>
@@ -352,7 +353,14 @@
         </div>
     </div>
 </div>
+@{
+    //obtener el viewbag, sirve para pasar el valor del usuarioid y de esta manera mostrar unicamente una notificacion cada ves que el usuario recarge la pagina
+    int click = ViewBag.notificacion;
+    string clk = click.ToString();
+    <input type="text" id="get_notificacion" style='display:none;' value="@click" />
 
+
+}
 <button class="btn red btn-circle btn-outline sbold uppercase mt-sweetalert" data-title="Debes registrarte si quieres comentar" data-message="Registrate" data-type="error" data-allow-outside-click="true"
         data-confirm-button-class="btn-danger" id="alerta" style='display:none;'>
     Parece que tienes problemas

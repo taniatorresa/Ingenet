@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Entities.Tema>
+
+@{
+    ViewBag.Title = "Lista de Temas";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box white ">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-globe"></i>Temas
+                </div>
+                <div class="actions">
+                    <a href="@Url.Action("Create", "Temas")" class="btn btn-outline btn-circle green-meadow btn-sm">
+                        <icon class="fa fa-plus"></icon> Agregar
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <table class="table table-striped table-bordered table-hover table-header-fixed" id="sample_2">
+                    <thead>
+                        <tr>
+                            <th> Tema </th>
+                            <th> Acciones </th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th> Tema </th>
+                            <th> Acciones </th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NombreTema)
+                                </td>
+                               
+                                <td>
+                                    
+                                            <a href="@Url.Action("Details", "Temas",new { id=item.TemaID})" class="btn btn-circle blue btn-sm">
+                                                <icon class="fa fa-info"></icon> Detalles
+                                            </a>
+                                     
+                                           
+                                       
+                                    </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,32 @@
+﻿@model Entities.Tema
+@{
+    ViewBag.Title = "Detalles";
+}
+
+<h2>Detalles</h2>
+
+<dl class="dl-horizontal">
+ 
+    <dt>
+        Nombre
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.NombreTema)
+    </dd>
+
+
+</dl>
+
+<a href="@Url.Action("Edit", "Temas",new { id=Model.TemaID})" class="btn btn-circle green-meadow btn-sm">
+    <icon class="fa fa-pencil"></icon> Editar
+</a>
+
+<a href="@Url.Action("Delete", "Temas",new { id=Model.TemaID})" class="btn btn-circle red btn-sm">
+    <icon class="fa fa-trash"></icon> Eliminar
+</a>
+
+@Html.ActionLink("Editar", "Edit", new { id = Model.TemaID }, new { @class = "btn btn-primary" }) &nbsp;
+@Html.ActionLink("Nuevo", "Create", null, new { @class = "btn btn-success" }) &nbsp;
+@Html.ActionLink("Lista de Temas", "Index", null, new { @class = "btn btn-white" })
+

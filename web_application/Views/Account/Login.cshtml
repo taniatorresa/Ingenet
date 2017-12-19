@@ -1,0 +1,88 @@
+﻿@model Entities.Login
+@{
+    Layout = "~/Views/Shared/_LoginPage.cshtml";
+}
+
+
+<div class="logo">
+    <a href="@Url.Action("Index","Home")">
+        <img src="~/img/ingenet_small_5.png" alt="" />
+    </a>
+</div>
+<!-- END LOGO -->
+<!-- BEGIN LOGIN -->
+<div class="content">
+
+    @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "login-form", id = "formulario" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <h3 class="form-title">Iniciar sesión</h3>
+        <div class="alert alert-danger display-hide">
+            <button class="close" data-close="alert"></button>
+            <span> Enter any username and password. </span>
+        </div>
+        <div class="form-group">
+            <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+            @*<label class="control-label visible-ie8 visible-ie9">Username</label>*@
+            @Html.LabelFor(model => model.Correo, new { @class = "control-label visible-ie8 visible-ie9" })
+            @*<input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off" placeholder="Username" name="username" />*@
+            <div class="input-icon">
+                <i class="fa fa-user"></i>
+                @Html.EditorFor(model => model.Correo, new { htmlAttributes = new { @class = "form-control form-control-solid placeholder-no-fix", placeholder = "Email" } })
+                @Html.ValidationMessageFor(model => model.Correo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Contraseña, new { @class = "control-label visible-ie8 visible-ie9" })
+            @*<input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off" placeholder="Username" name="username" />*@
+            <div class="input-icon">
+                <i class="fa fa-lock"></i>
+                @Html.EditorFor(model => model.Contraseña, new { htmlAttributes = new { @class = "form-control form-control-solid placeholder-no-fix", placeholder = "Contraseña" } })
+                @Html.ValidationMessageFor(model => model.Contraseña, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <label class="rememberme mt-checkbox mt-checkbox-outline">
+                <input type="checkbox" name="RememberMe" value="" /> ¿Recordarme?
+                <span></span>
+            </label>
+            <button type="submit" class="btn green pull-right"> Iniciar </button>
+        </div>
+
+        <div class="create-account">
+            <p>
+                ¿No tienes cuenta?&nbsp;
+                <a href="@Url.Action("Create", "Usuario")" class="btn blue-hoki pull-right"> Crear cuenta</a>
+            </p>
+        </div>
+
+
+    }
+
+
+
+    <!-- END LOGIN FORM -->
+    <!-- BEGIN FORGOT PASSWORD FORM -->
+    <form class="forget-form" action="index.html" method="post">
+        <h3 class="font-green">Forget Password ?</h3>
+        <p> Enter your e-mail address below to reset your password. </p>
+        <div class="form-group">
+            <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Email" name="email" />
+        </div>
+        <div class="form-actions">
+            <button type="button" id="back-btn" class="btn green btn-outline">Back</button>
+            <button type="submit" class="btn btn-success uppercase pull-right">Submit</button>
+        </div>
+    </form>
+    <!-- END FORGOT PASSWORD FORM -->
+
+</div>
+<div class="copyright"> 2017 © Ingenet. UAA. </div>
+<!--[if lt IE 9]>
+<script src="../assets/global/plugins/respond.min.js"></script>
+<script src="../assets/global/plugins/excanvas.min.js"></script>
+<script src="../assets/global/plugins/ie8.fix.min.js"></script>
+<![endif]-->
+<!-- BEGIN CORE PLUGINS -->

@@ -1,0 +1,86 @@
+﻿@model Entities.Pregunta
+
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+
+<div>
+    <h4>Pregunta</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UsuarioID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UsuarioID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TituloPregunta)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TituloPregunta)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContenidoPregunta)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContenidoPregunta)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Estado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Estado)
+        </dd>
+        @Html.Action("ShowTemas", "Preguntas")
+    
+</div>
+<div id="up">
+  @Html.Action("ShowRespuestas", "Preguntas")
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div id="DetOrd">
+   
+        </div>
+    </div>
+</div>
+
+<div>
+ @Html.Partial("_CreateRespuesta", new Entities.Respuesta())
+</div>
+
+<!-- instala en  nuget -->
+@section Scripts{
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    <script>
+
+        function cerrar() {
+            $('#up').hide(); //oculto mediante id
+       
+        }
+        function error() {
+            alert('Error al cargar productos');
+
+        }
+
+
+    </script>
+}

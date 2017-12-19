@@ -1,0 +1,105 @@
+﻿
+@model IEnumerable<Entities.Usuario>
+
+@{
+    ViewBag.Title = "Nuevo Usuario";
+}
+
+@*@Html.AntiForgeryToken()*@
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box white ">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-globe"></i>Usuarios
+                </div>
+                <div class="actions">
+                    <a href="@Url.Action("Create", "Usuario")" class="btn btn-outline btn-circle green-meadow btn-sm">
+                        <icon class="fa fa-plus"></icon> Agregar
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <table class="table table-striped table-bordered table-hover table-header-fixed" id="sample_2">
+                    <thead>
+                        <tr>
+                            <th> Foto </th>
+                            <th> Username</th>
+                            <th> Rol </th>
+                            <th> Estatus</th>
+                            <th> Acciones </th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th> Foto </th>
+                            <th> Username</th>
+                            <th> Rol </th>
+                            <th> Estatus</th>
+                            <th> Acciones </th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @if (item.Foto != null)
+                                    {
+                                        
+                                                       
+                                                            <img alt="foto" width="200" src="@Url.Action("GetImage", "Usuario", new { id = item.UsuarioID })" />
+                                                   
+                                    }
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UserName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Rol)
+                                </td>
+                                <td>
+                                    @{string estatus = "2";
+                                        if (item.Estatus == 1)
+                                        {
+                                            <p>@estatus="activo"</p>
+                                        }
+                                        else
+                                        {
+                                            <p>@estatus="Inactivo"</p>
+                                        }
+                                    }
+                                    
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Details", "Usuario",new { id=item.UsuarioID})" class="btn btn-circle blue btn-sm">
+                                        <icon class="fa fa-info"></icon> Detalles
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/select2.full.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/additional-methods.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/bootstrap-datepicker.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/wysihtml5-0.3.0.js" type="text/javascript"></script>
+    <script src="~/Scripts/bootstrap-wysihtml5.js" type="text/javascript"></script>
+    <script src="~/Scripts/ckeditor.js" type="text/javascript"></script>
+    <script src="~/Scripts/bootstrap-markdown.js" type="text/javascript"></script>
+    <script src="~/Scripts/markdown.js" type="text/javascript"></script>
+    <script src="~/Scripts/form-validation.min.js" type="text/javascript"></script>
+}

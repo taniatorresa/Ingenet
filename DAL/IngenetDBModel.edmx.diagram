@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f90a64b766f5474eb0cd2c748cb1556d" Name="Diagram1" ZoomLevel="96">
+        <EntityTypeShape EntityType="IngenetModel.Pregunta" Width="1.5" PointX="3" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="IngenetModel.PreguntaTema" Width="1.5" PointX="5.25" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="IngenetModel.Respuesta" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="IngenetModel.Tema" Width="1.5" PointX="3" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="IngenetModel.Usuario" Width="1.5" PointX="0.75" PointY="2.75" IsExpanded="true" />
+        <AssociationConnector Association="IngenetModel.FK_PregunaTema_Pregunta" ManuallyRouted="false" />
+        <AssociationConnector Association="IngenetModel.FK_Pregunta_Usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="IngenetModel.FK_Respuesta_Pregunta" ManuallyRouted="false" />
+        <AssociationConnector Association="IngenetModel.FK_PregunaTema_Tema" ManuallyRouted="false" />
+        <AssociationConnector Association="IngenetModel.FK_Respuesta_Usuario" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,59 @@
+﻿@model Entities.Tema
+@{
+    ViewBag.Title = "Preguntas por tema";
+}
+
+<h2>Buscar Pregunta por Tema</h2>
+<div class="row">
+    <div class="col-md-12">
+        @using (Ajax.BeginForm("BuscarPreguntasPorTema", "Preguntas", null,
+                     new AjaxOptions
+                     {
+                         HttpMethod = "POST",
+                         UpdateTargetId = "Lista",
+                         OnSuccess = "cerrar",
+                         OnFailure = "error",
+                         AllowCache = false,
+                     }, new { role = "form", id = "Formulario" }))
+        {
+            <div class="row">
+
+                <div class="form-group col-md-3">
+                    @Html.LabelFor(model => model.TemaID, new { @class = "control-label" })
+                    @Html.DropDownList("TemaID", null, "- Seleccione una categoria -",
+                     new { @class = "form-control" })
+                </div>
+
+                <div class="form-group col-md-1">
+                    <input type="submit" class="btn btn-success" name="buscar" value="Buscar"
+                           style="margin-top:24px" />
+                </div>
+            </div>
+
+        }
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div id="Lista">
+
+        </div>
+    </div>
+</div>
+
+<!-- instala en  nuget -->
+@section Scripts{
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script>
+
+    function cerrar()
+    {
+        alert('funcion cerrarda');
+    }
+    function error()
+    {
+        alert('Error al cargar productos');
+    }
+    </script>
+}

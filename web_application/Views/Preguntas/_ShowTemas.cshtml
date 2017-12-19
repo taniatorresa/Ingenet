@@ -1,0 +1,20 @@
+﻿@model IEnumerable<Entities.PreguntaTema>
+
+
+<table class="table">
+   
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+          
+        </td>
+        <td>
+            @Html.Action("GetTema", "Preguntas", new { id = item.TemaID })
+        </td>
+       
+       
+    </tr>
+}
+
+</table>

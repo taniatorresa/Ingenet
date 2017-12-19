@@ -1,0 +1,893 @@
+﻿
+@using System.Security.Claims;
+@using System.Threading;
+@{
+    AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.Email;
+    AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;
+    var Usuario = "";
+    var Rol = "";
+    var ID = "";
+    ClaimsPrincipal Principal = Thread.CurrentPrincipal as ClaimsPrincipal;
+    if (Principal != null && Principal.Identity.IsAuthenticated)
+    {
+        var Claims = Principal.Claims.ToList();
+        Usuario = Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value;
+        Rol = Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
+        ID = Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+    }
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>@ViewBag.Title - Ingenet</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta content="Plataforma virtual" name="description" />
+    <meta content="" name="Code" />
+    <!-- Estilos generales -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
+    <link href="~/Content/simple-line-icons.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/components.min.css" rel="stylesheet" id="style_components" type="text/css" />
+    <link href="~/Content/datatables.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/plugins.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/components-rounded.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-switch.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/editor.css" rel="stylesheet" type="text/css" />
+
+    <!--Fotos-->
+    <link href="~/Content/fileinput.css" rel="stylesheet" />
+    @RenderSection("Styles", required: false)
+    @*<link href="~/Content/jquery.fancybox.css" rel="stylesheet" />
+        <link href="~/Content/jquery.fileupload-ui.css" rel="stylesheet" />
+        <link href="~/Content/jquery.fileupload.css" rel="stylesheet" />
+        <link href="~/Content/blueimp-gallery.min.css" rel="stylesheet" />*@
+    <!-- Estilo default para el amdministrador -->
+    <link href="~/Content/layout.min.css" rel="stylesheet" type="text/css" />
+    @if (Rol.Equals("A"))
+    {
+        <link href="~/Content/default.min.css" rel="stylesheet" type="text/css" id="style_color" />
+    }
+    else
+    {
+        <!-- Estilo darkblue para todos los usuarios menos administrador  -->
+        <link href="~/Content/darkblue.min.css" rel="stylesheet" type="text/css" id="style_color" />
+    }
+    <link href="~/Content/custom.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/jquery.notific8.min.css" rel="stylesheet" />
+    <!--datatables-->
+
+
+
+    @Styles.Render("~/Content/css")
+    @*@Styles.Render("~/Content/custom/css")
+        @Scripts.Render("~/bundles/modernizr")*@
+    <link rel="icon" href="@Url.Content("~/Content/favicon.ico")" />
+</head>
+
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
+    <div class="page-wrapper">
+        <div class="page-header navbar navbar-fixed-top">
+            <!-- BEGIN HEADER INNER -->
+            <div class="page-header-inner ">
+                <!-- BEGIN LOGO -->
+                <div class="page-logo">
+                    <a href="@Url.Action("Index", "Home")">
+                        <img src="~/img/ingenet_small_5.png" alt="logo" class="logo-default" />
+                    </a>
+                    <div class="menu-toggler sidebar-toggler">
+                        <span></span>
+                    </div>
+                </div>
+                <!-- END LOGO -->
+                <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+                <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span></span>
+                </a>
+                <!-- END RESPONSIVE MENU TOGGLER -->
+                <!-- BEGIN TOP NAVIGATION MENU -->
+                <div class="top-menu">
+                    <ul class="nav navbar-nav pull-right">
+                        <!-- BEGIN NOTIFICATION DROPDOWN -->
+                        <!-- DOC: Apply "dropdown-dark" class after "dropdown-extended" to change the dropdown styte -->
+                        <!-- DOC: Apply "dropdown-hoverable" class after below "dropdown" and remove data-toggle="dropdown" data-hover="dropdown" data-close-others="true" attributes to enable hover dropdown mode -->
+                        <!-- DOC: Remove "dropdown-hoverable" and add data-toggle="dropdown" data-hover="dropdown" data-close-others="true" attributes to the below A element with dropdown-toggle class -->
+                        <!-- END NOTIFICATION DROPDOWN -->
+                        <!-- BEGIN INBOX DROPDOWN -->
+                        <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+
+                        @if (Principal != null && Principal.Identity.IsAuthenticated)
+                        {
+
+                            <li class="dropdown dropdown-extended dropdown-notification" id="header_notification_bar">
+                                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                    <i class="icon-bell"></i>
+                                    <span class="badge badge-default"> 7 </span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="external">
+                                        <h3>
+                                            <span class="bold">12 pending</span> notifications
+                                        </h3>
+                                        <a href="page_user_profile_1.html">view all</a>
+                                    </li>
+                                    <li>
+                                        <ul class="dropdown-menu-list scroller" style="height: 250px;" data-handle-color="#637283">
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="time">just now</span>
+                                                    <span class="details">
+                                                        <span class="label label-sm label-icon label-success">
+                                                            <i class="fa fa-plus"></i>
+                                                        </span> New user registered.
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="time">3 mins</span>
+                                                    <span class="details">
+                                                        <span class="label label-sm label-icon label-danger">
+                                                            <i class="fa fa-bolt"></i>
+                                                        </span> Server #12 overloaded.
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="time">10 mins</span>
+                                                    <span class="details">
+                                                        <span class="label label-sm label-icon label-warning">
+                                                            <i class="fa fa-bell-o"></i>
+                                                        </span> Server #2 not responding.
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="time">14 hrs</span>
+                                                    <span class="details">
+                                                        <span class="label label-sm label-icon label-info">
+                                                            <i class="fa fa-bullhorn"></i>
+                                                        </span> Application error.
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="time">2 days</span>
+                                                    <span class="details">
+                                                        <span class="label label-sm label-icon label-danger">
+                                                            <i class="fa fa-bolt"></i>
+                                                        </span> Database overloaded 68%.
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="time">3 days</span>
+                                                    <span class="details">
+                                                        <span class="label label-sm label-icon label-danger">
+                                                            <i class="fa fa-bolt"></i>
+                                                        </span> A user IP blocked.
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="time">4 days</span>
+                                                    <span class="details">
+                                                        <span class="label label-sm label-icon label-warning">
+                                                            <i class="fa fa-bell-o"></i>
+                                                        </span> Storage Server #4 not responding dfdfdfd.
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="time">5 days</span>
+                                                    <span class="details">
+                                                        <span class="label label-sm label-icon label-info">
+                                                            <i class="fa fa-bullhorn"></i>
+                                                        </span> System Error.
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="time">9 days</span>
+                                                    <span class="details">
+                                                        <span class="label label-sm label-icon label-danger">
+                                                            <i class="fa fa-bolt"></i>
+                                                        </span> Storage server failed.
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown dropdown-extended dropdown-inbox" id="header_inbox_bar">
+                                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                    <i class="icon-envelope-open"></i>
+                                    <span class="badge badge-default"> 4 </span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="external">
+                                        <h3>
+                                            You have
+                                            <span class="bold">7 New</span> Messages
+                                        </h3>
+                                        <a href="app_inbox.html">view all</a>
+                                    </li>
+                                    <li>
+                                        <ul class="dropdown-menu-list scroller" style="height: 275px;" data-handle-color="#637283">
+                                            <li>
+                                                <a href="#">
+                                                    <span class="photo">
+                                                        <img src="../assets/layouts/layout3/img/avatar2.jpg" class="img-circle" alt="">
+                                                    </span>
+                                                    <span class="subject">
+                                                        <span class="from"> Lisa Wong </span>
+                                                        <span class="time">Just Now </span>
+                                                    </span>
+                                                    <span class="message"> Vivamus sed auctor nibh congue nibh. auctor nibh auctor nibh... </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <span class="photo">
+                                                        <img src="../assets/layouts/layout3/img/avatar3.jpg" class="img-circle" alt="">
+                                                    </span>
+                                                    <span class="subject">
+                                                        <span class="from"> Richard Doe </span>
+                                                        <span class="time">16 mins </span>
+                                                    </span>
+                                                    <span class="message"> Vivamus sed congue nibh auctor nibh congue nibh. auctor nibh auctor nibh... </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <span class="photo">
+                                                        <img src="../assets/layouts/layout3/img/avatar1.jpg" class="img-circle" alt="">
+                                                    </span>
+                                                    <span class="subject">
+                                                        <span class="from"> Bob Nilson </span>
+                                                        <span class="time">2 hrs </span>
+                                                    </span>
+                                                    <span class="message"> Vivamus sed nibh auctor nibh congue nibh. auctor nibh auctor nibh... </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <span class="photo">
+                                                        <img src="../assets/layouts/layout3/img/avatar2.jpg" class="img-circle" alt="">
+                                                    </span>
+                                                    <span class="subject">
+                                                        <span class="from"> Lisa Wong </span>
+                                                        <span class="time">40 mins </span>
+                                                    </span>
+                                                    <span class="message"> Vivamus sed auctor 40% nibh congue nibh... </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <span class="photo">
+                                                        <img src="../assets/layouts/layout3/img/avatar3.jpg" class="img-circle" alt="">
+                                                    </span>
+                                                    <span class="subject">
+                                                        <span class="from"> Richard Doe </span>
+                                                        <span class="time">46 mins </span>
+                                                    </span>
+                                                    <span class="message"> Vivamus sed congue nibh auctor nibh congue nibh. auctor nibh auctor nibh... </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown dropdown-extended dropdown-tasks" id="header_task_bar">
+                                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                    <i class="icon-calendar"></i>
+                                    <span class="badge badge-default"> 3 </span>
+                                </a>
+                                <ul class="dropdown-menu extended tasks">
+                                    <li class="external">
+                                        <h3>
+                                            You have
+                                            <span class="bold">12 pending</span> tasks
+                                        </h3>
+                                        <a href="app_todo.html">view all</a>
+                                    </li>
+                                    <li>
+                                        <ul class="dropdown-menu-list scroller" style="height: 275px;" data-handle-color="#637283">
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="task">
+                                                        <span class="desc">New release v1.2 </span>
+                                                        <span class="percent">30%</span>
+                                                    </span>
+                                                    <span class="progress">
+                                                        <span style="width: 40%;" class="progress-bar progress-bar-success" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
+                                                            <span class="sr-only">40% Complete</span>
+                                                        </span>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="task">
+                                                        <span class="desc">Application deployment</span>
+                                                        <span class="percent">65%</span>
+                                                    </span>
+                                                    <span class="progress">
+                                                        <span style="width: 65%;" class="progress-bar progress-bar-danger" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">
+                                                            <span class="sr-only">65% Complete</span>
+                                                        </span>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="task">
+                                                        <span class="desc">Mobile app release</span>
+                                                        <span class="percent">98%</span>
+                                                    </span>
+                                                    <span class="progress">
+                                                        <span style="width: 98%;" class="progress-bar progress-bar-success" aria-valuenow="98" aria-valuemin="0" aria-valuemax="100">
+                                                            <span class="sr-only">98% Complete</span>
+                                                        </span>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="task">
+                                                        <span class="desc">Database migration</span>
+                                                        <span class="percent">10%</span>
+                                                    </span>
+                                                    <span class="progress">
+                                                        <span style="width: 10%;" class="progress-bar progress-bar-warning" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
+                                                            <span class="sr-only">10% Complete</span>
+                                                        </span>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="task">
+                                                        <span class="desc">Web server upgrade</span>
+                                                        <span class="percent">58%</span>
+                                                    </span>
+                                                    <span class="progress">
+                                                        <span style="width: 58%;" class="progress-bar progress-bar-info" aria-valuenow="58" aria-valuemin="0" aria-valuemax="100">
+                                                            <span class="sr-only">58% Complete</span>
+                                                        </span>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="task">
+                                                        <span class="desc">Mobile development</span>
+                                                        <span class="percent">85%</span>
+                                                    </span>
+                                                    <span class="progress">
+                                                        <span style="width: 85%;" class="progress-bar progress-bar-success" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">
+                                                            <span class="sr-only">85% Complete</span>
+                                                        </span>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="task">
+                                                        <span class="desc">New UI release</span>
+                                                        <span class="percent">38%</span>
+                                                    </span>
+                                                    <span class="progress progress-striped">
+                                                        <span style="width: 38%;" class="progress-bar progress-bar-important" aria-valuenow="18" aria-valuemin="0" aria-valuemax="100">
+                                                            <span class="sr-only">38% Complete</span>
+                                                        </span>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown dropdown-user">
+                                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                    @*@if (Model.Foto != null)
+                                    { 
+                                        <img alt="" class="img-circle" src="@Url.Action("GetImage", "Usuario", new { id = Model.UsuarioID })" />
+
+                                    }*@
+
+                                  @*@{ Html.RenderAction("imagen", "Usuario", new { requestId = @ID }); }*@
+
+                                    <span class="username username-hide-on-mobile">  @Usuario </span>
+                                    <i class="fa fa-angle-down"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-default">
+                                    <li>
+                                        <a href="@Url.Action("Details", "Usuario",new { id = @ID })">
+                                            <i class="icon-user"></i> Mi perfil
+                                        </a>
+                                    </li>
+                                    @if (Rol.Equals("A"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index", "Usuario")">
+                                                <i class="fa fa-users"></i> Usuarios
+                                            </a>
+                                        </li>
+                                    }
+
+
+
+                                    @*<li>
+                                        <a href="@Url.Action("Create", "Preguntas",new { id = @ID })">
+                                            <i class="icon-user"></i> Preguntas
+                                        </a>
+                                    </li>*@
+                                    @*<li>
+                                        <a href="app_calendar.html">
+                                            <i class="icon-calendar"></i> My Calendar
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="app_inbox.html">
+                                            <i class="icon-envelope-open"></i> My Inbox
+                                            <span class="badge badge-danger"> 3 </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="app_todo.html">
+                                            <i class="icon-rocket"></i> My Tasks
+                                            <span class="badge badge-success"> 7 </span>
+                                        </a>
+                                    </li>
+                                    <li class="divider"> </li>
+                                    <li>
+                                        <a href="page_user_lock_1.html">
+                                            <i class="icon-lock"></i> Lock Screen
+                                        </a>
+                                    </li>*@
+                                    <li>
+                                        <a href="@Url.Action("LogOff", "Account")">
+                                            <i class="icon-logout"></i>Cerrar sesión
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            @*@if (Rol.Equals("A"))
+                                {
+                                }*@
+                        }
+                        else
+                        {
+
+
+                            <li class="dropdown dropdown-user">
+                                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                    <img alt="" class="img-circle" src="../assets/layouts/layout/img/avatar3_small.jpg" />
+                                    <span class="username username-hide-on-mobile">  <i class="icon-users"></i> Sesiones </span>
+                                    <i class="fa fa-angle-down"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-default">
+                                    <li>
+                                        <a href="@Url.Action("Login", "Account")">
+                                            <i class="icon-login"></i>Iniciar sesión
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Create", "Usuario")">
+                                            <i class="fa fa-sign-in"></i> Registrarse
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                        }
+
+
+
+                        <li class="dropdown dropdown-quick-sidebar-toggler">
+                            <a href="javascript:;" class="dropdown-toggle">
+                                <i class="icon-logout"></i>
+                            </a>
+                        </li>
+                        <!-- END QUICK SIDEBAR TOGGLER -->
+                    </ul>
+                </div>
+                <!-- END TOP NAVIGATION MENU -->
+            </div>
+            <!-- END HEADER INNER -->
+
+        </div>
+
+        <div class="clearfix"> </div>
+        <div class="page-container">
+            <!-- BEGIN SIDEBAR -->
+            <div class="page-sidebar-wrapper">
+                <!-- BEGIN SIDEBAR -->
+                <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+                <!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+                <div class="page-sidebar navbar-collapse collapse">
+                    <!-- BEGIN SIDEBAR MENU -->
+                    <!-- DOC: Apply "page-sidebar-menu-light" class right after "page-sidebar-menu" to enable light sidebar menu style(without borders) -->
+                    <!-- DOC: Apply "page-sidebar-menu-hover-submenu" class right after "page-sidebar-menu" to enable hoverable(hover vs accordion) sub menu mode -->
+                    <!-- DOC: Apply "page-sidebar-menu-closed" class right after "page-sidebar-menu" to collapse("page-sidebar-closed" class must be applied to the body element) the sidebar sub menu mode -->
+                    <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+                    <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
+                    <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+                    <ul class="page-sidebar-menu  page-header-fixed " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" style="padding-top: 20px">
+                        <!-- DOC: To remove the sidebar toggler from the sidebar you just need to completely remove the below "sidebar-toggler-wrapper" LI element -->
+                        <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+                        <li class="sidebar-toggler-wrapper hide">
+                            <div class="sidebar-toggler">
+                                <span></span>
+                            </div>
+                        </li>
+                        <!-- END SIDEBAR TOGGLER BUTTON -->
+                        <!-- DOC: To remove the search box from the sidebar you just need to completely remove the below "sidebar-search-wrapper" LI element -->
+
+                        <li class="nav-item start ">
+                            <a href="javascript:;" class="nav-link nav-toggle">
+                                <i class="icon-home"></i>
+                                <span class="title">Dashboard</span>
+                                <span class="arrow"></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li class="nav-item start ">
+                                    <a href="index.html" class="nav-link ">
+                                        <i class="icon-bar-chart"></i>
+                                        <span class="title">Dashboard 1</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item start ">
+                                    <a href="dashboard_2.html" class="nav-link ">
+                                        <i class="icon-bulb"></i>
+                                        <span class="title">Dashboard 2</span>
+                                        <span class="badge badge-success">1</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item start ">
+                                    <a href="dashboard_3.html" class="nav-link ">
+                                        <i class="icon-graph"></i>
+                                        <span class="title">Dashboard 3</span>
+                                        <span class="badge badge-danger">5</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="heading">
+                            <h3 class="uppercase">Tablas</h3>
+                        </li>
+                        <li class="nav-item  ">
+                            <a href="javascript:;" class="nav-link nav-toggle">
+                                <i class="icon-diamond"></i>
+                                <span class="title">Contenidos</span>
+                                <span class="arrow"></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li class="nav-item  ">
+                                    @Html.ActionLink("Usuario", "Index", "Usuario")
+
+                                </li>
+                                <li class="nav-item  ">
+                                    @Html.ActionLink("Temas", "Index", "Temas")
+
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item  ">
+                            <a href="javascript:;" class="nav-link nav-toggle">
+                                <i class="icon-puzzle"></i>
+                                <span class="title">Components</span>
+                                <span class="arrow"></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li class="nav-item  ">
+                                    <a href="components_date_time_pickers.html" class="nav-link ">
+                                        <span class="title">Date & Time Pickers</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item  ">
+                                    <a href="components_color_pickers.html" class="nav-link ">
+                                        <span class="title">Color Pickers</span>
+                                        <span class="badge badge-danger">2</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item  ">
+                                    <a href="components_select2.html" class="nav-link ">
+                                        <span class="title">Select2 Dropdowns</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item  ">
+                                    <a href="components_bootstrap_select.html" class="nav-link ">
+                                        <span class="title">Bootstrap Select</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item  ">
+                                    <a href="components_multi_select.html" class="nav-link ">
+                                        <span class="title">Bootstrap Multiple Select</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item  ">
+                                    <a href="components_bootstrap_multiselect_dropdown.html" class="nav-link ">
+                                        <span class="title">Bootstrap Multiselect Dropdowns</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item  ">
+                                    <a href="components_bootstrap_select_splitter.html" class="nav-link ">
+                                        <span class="title">Select Splitter</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item  ">
+                                    <a href="components_clipboard.html" class="nav-link ">
+                                        <span class="title">Clipboard</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item  ">
+                                    <a href="components_typeahead.html" class="nav-link ">
+                                        <span class="title">Typeahead Autocomplete</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item  ">
+                                    <a href="components_bootstrap_tagsinput.html" class="nav-link ">
+                                        <span class="title">Bootstrap Tagsinput</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item  ">
+                                    <a href="components_bootstrap_switch.html" class="nav-link ">
+                                        <span class="title">Bootstrap Switch</span>
+                                        <span class="badge badge-success">6</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item  ">
+                                    <a href="components_bootstrap_maxlength.html" class="nav-link ">
+                                        <span class="title">Bootstrap Maxlength</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item  ">
+                                    <a href="components_bootstrap_fileinput.html" class="nav-link ">
+                                        <span class="title">Bootstrap File Input</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item  ">
+                                    <a href="components_bootstrap_touchspin.html" class="nav-link ">
+                                        <span class="title">Bootstrap Touchspin</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item  ">
+                                    <a href="components_form_tools.html" class="nav-link ">
+                                        <span class="title">Form Widgets & Tools</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item  ">
+                                    <a href="components_context_menu.html" class="nav-link ">
+                                        <span class="title">Context Menu</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item  ">
+                                    <a href="components_editors.html" class="nav-link ">
+                                        <span class="title">Markdown & WYSIWYG Editors</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item  ">
+                                    <a href="components_code_editors.html" class="nav-link ">
+                                        <span class="title">Code Editors</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item  ">
+                                    <a href="components_ion_sliders.html" class="nav-link ">
+                                        <span class="title">Ion Range Sliders</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item  ">
+                                    <a href="components_noui_sliders.html" class="nav-link ">
+                                        <span class="title">NoUI Range Sliders</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item  ">
+                                    <a href="components_knob_dials.html" class="nav-link ">
+                                        <span class="title">Knob Circle Dials</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item  ">
+                            <a href="javascript:;" class="nav-link nav-toggle">
+                                <i class="icon-settings"></i>
+                                <span class="title">Form Stuff</span>
+                                <span class="arrow"></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li class="nav-item  ">
+                                    <a href="form_controls.html" class="nav-link ">
+                                        <span class="title">
+                                            Bootstrap Form
+                                            <br>Controls
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="nav-item  ">
+                                    <a href="form_controls_md.html" class="nav-link ">
+                                        <span class="title">
+                                            Material Design
+                                            <br>Form Controls
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="nav-item  ">
+                                    <a href="form_validation.html" class="nav-link ">
+                                        <span class="title">Form Validation</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item  ">
+                                    <a href="form_validation_states_md.html" class="nav-link ">
+                                        <span class="title">
+                                            Material Design
+                                            <br>Form Validation States
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="nav-item  ">
+                                    <a href="form_validation_md.html" class="nav-link ">
+                                        <span class="title">
+                                            Material Design
+                                            <br>Form Validation
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="nav-item  ">
+                                    <a href="form_layouts.html" class="nav-link ">
+                                        <span class="title">Form Layouts</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item  ">
+                                    <a href="form_repeater.html" class="nav-link ">
+                                        <span class="title">Form Repeater</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item  ">
+                                    <a href="form_input_mask.html" class="nav-link ">
+                                        <span class="title">Form Input Mask</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item  ">
+                                    <a href="form_editable.html" class="nav-link ">
+                                        <span class="title">Form X-editable</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item  ">
+                                    <a href="form_wizard.html" class="nav-link ">
+                                        <span class="title">Form Wizard</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item  ">
+                                    <a href="form_icheck.html" class="nav-link ">
+                                        <span class="title">iCheck Controls</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item  ">
+                                    <a href="form_image_crop.html" class="nav-link ">
+                                        <span class="title">Image Cropping</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item  ">
+                                    <a href="form_fileupload.html" class="nav-link ">
+                                        <span class="title">Multiple File Upload</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item  ">
+                                    <a href="form_dropzone.html" class="nav-link ">
+                                        <span class="title">Dropzone File Upload</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+
+
+                    </ul>
+                    <!-- END SIDEBAR MENU -->
+                    <!-- END SIDEBAR MENU -->
+                </div>
+                <!-- END SIDEBAR -->
+            </div>
+            <!-- END SIDEBAR -->
+            <!-- BEGIN CONTENT -->
+            <div class="page-content-wrapper">
+                <!-- BEGIN CONTENT BODY -->
+                <div class="page-content">
+
+
+                    @RenderBody()
+                    <hr />
+                    <!--Formulario oculto para las notificaciones (no hace falta mostrar el formulario , solo se necesitan las notificaciones, se pudo haber
+                        editar el archivo jquery.notific8.min.js para no utilizar el formulario pero para no alterar lo ya establecido, se opto por ocultar el formulario
+                        donde se llevaran las configuraciones para mostrar la notificacion que indique al usuario que ya ha iniciado sesión exitosamente-->
+
+
+
+                </div>
+                <!-- END CONTENT BODY -->
+            </div>
+            <!-- END CONTENT -->
+            <!-- BEGIN QUICK SIDEBAR -->
+            <!-- END QUICK SIDEBAR -->
+            <div class="page-footer">
+                <div class="page-footer-inner">
+                    2017 &copy; Ingenet
+
+                </div>
+                <div class="scroll-to-top">
+                    <i class="icon-arrow-up"></i>
+                </div>
+            </div>
+        </div>
+
+    </div>
+   
+    <script src="~/Scripts/jquery.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/bootstrap.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/js.cookie.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/jquery.slimscroll.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/jquery.blockui.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/bootstrap-switch.min.js" type="text/javascript"></script>
+    <!-- END CORE PLUGINS -->
+    <!-- BEGIN THEME GLOBAL SCRIPTS -->
+    <script src="~/Scripts/app.min.js" type="text/javascript"></script>
+    @RenderSection("Scripts", required: false)
+    <!-- END THEME GLOBAL SCRIPTS -->
+    <!-- BEGIN THEME LAYOUT SCRIPTS -->
+    <script src="~/Scripts/layout.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/demo.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/quick-sidebar.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/quick-nav.min.js" type="text/javascript"></script>
+
+
+    <script src="~/Scripts/datatable.js" type="text/javascript"></script>
+    <script src="~/Scripts/datatables.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/datatables.bootstrap.js" type="text/javascript"></script>
+    <script src="~/Scripts/table-datatables-fixedheader.js" type="text/javascript"></script>
+    <script src="~/Scripts/config.js" type="text/javascript"></script>
+
+    <!--scripts para las notificaciones-->
+    @*<script src="~/Scripts/ui-notific8.min.js"></script>
+        <script src="~/Scripts/jquery.notific8.min.js"></script>*@
+
+
+
+    @*<script>
+            //Mostrar notificacion
+            $(document).ready(function () {
+                function enviar()
+                { $("#notific8_show").click(); }
+                //function lanzadera() {
+                //    funcion_primera();
+                //    funcion_segunda();
+                //    funcion_tercera();
+                //}
+
+                window.onload = enviar;
+                $('#formulario_notificacion_ocultar').hide();
+            });
+        </script>*@
+
+    
+</body>
+</html>

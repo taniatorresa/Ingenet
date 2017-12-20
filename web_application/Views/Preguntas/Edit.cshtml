@@ -1,63 +1,147 @@
 ﻿@model Entities.Pregunta
+@using System.Security.Claims;
+@using System.Threading;
+@{
+    //AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.Email;
+    AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;
+    var Usuario = "";
+    var ID = "";
+    ClaimsPrincipal Principal = Thread.CurrentPrincipal as ClaimsPrincipal;
+    if (Principal != null && Principal.Identity.IsAuthenticated)
+    {
+        var Claims = Principal.Claims.ToList();
+        Usuario = Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value;
+        ID = Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+    }
 
+
+}
 @{
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Pregunta</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.PreguntaID)
+<div class="portlet-body">
+    <div class="row">
+        <div class="col-md-7 col-sm-8">
+            @using (Html.BeginForm("Edit", "Preguntas", null, FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                @Html.AntiForgeryToken()
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.UsuarioID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.UsuarioID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.UsuarioID, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <!-- TASK HEAD -->
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.TituloPregunta, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.TituloPregunta, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TituloPregunta, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                @*Usuario ID*@
+                <div class="form-group" style='display:none;'>
+                    @Html.EditorFor(model => model.UsuarioID, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.UsuarioID, "", new { @class = "text-danger" })
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.ContenidoPregunta, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ContenidoPregunta, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ContenidoPregunta, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                    @Html.EditorFor(model => model.PreguntaID, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.PreguntaID, "", new { @class = "text-danger" })
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Estado, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.Estado)
-                    @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger" })
+                   
                 </div>
-            </div>
-        </div>
+                <div class="form">
+                    <div class="form-group">
+                        <div class="col-md-8 col-sm-8">
+                            <div class="todo-taskbody-user">
+                                @*@Html.Action("Getknowimage","Usuario", new { id = @ID })*@
+                                <img alt="foto" width="50px" height="50px" class="todo-userpic pull-left" src="@Url.Action("Getknowimage", "Usuario", new { id = @ID,  })" />
+                                @*<img class="todo-userpic pull-left" src="../assets/pages/media/users/avatar6.jpg" width="50px" height="50px">*@
+                                <span class="todo-username pull-left">@Usuario</span>
+                                @*<button type="button" class="todo-username-btn btn btn-circle btn-default btn-sm">&nbsp;edit&nbsp;</button>*@
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <div class="todo-taskbody-date pull-right">
+                                @(Html.ActionLink("Cancelar", "Index", new { id = 1 }, new { @class = "todo-username-btn btn btn-circle btn-default btn-sm" }))
+                                @*<button type="button" class="todo-username-btn btn btn-circle btn-default btn-sm">&nbsp; Complete &nbsp;</button>*@
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END TASK HEAD -->
+                    <!-- TASK TITLE -->
+                    <label class="control label"> Estatus</label>
+                    <div class="form-group">
+                       
+                        <div class="col-md-12">
+                           
+                            @Html.EditorFor(model => model.Estado, new { htmlAttributes = new { @class = "form-control todo-taskbody-tasktitle", placeholder = "Titulo" } })
+                            @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.TituloPregunta, new { htmlAttributes = new { @class = "form-control todo-taskbody-tasktitle", placeholder = "Titulo" } })
+                            @Html.ValidationMessageFor(model => model.TituloPregunta, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <!-- TASK DESC -->
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @*<textarea class="form-control todo-taskbody-taskdesc" rows="8" placeholder="Task Description..."></textarea>*@
+                            @Html.TextAreaFor(model => model.ContenidoPregunta, new { @class = "form-control todo-taskbody-taskdesc", rows = "8", placeholder = "¿Que quieres preguntar?" })
+                            @Html.ValidationMessageFor(model => model.ContenidoPregunta, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <!-- END TASK DESC -->
+                    <!-- TASK DUE DATE -->
+                    <div class="form-group" style='display:none;'>
+                        <div class="col-md-12">
+                            <div class="input-icon">
+                                <i class="fa fa-calendar"></i>
+                                @Html.EditorFor(model => model.Creada, new { htmlAttributes = new { id = "fecha", @class = "", placeholder = "Fecha" } })
+                                @Html.ValidationMessageFor(model => model.Creada, "", new { @class = "text-danger" })
+                                @*<input type="text" class="form-control todo-taskbody-due" placeholder="Due Date...">*@
+                            </div>
+                        </div>
+                    </div>
+                    <!-- TASK TAGS TEMAS/////////////////////////////////////EN ESPERA -->
+                    @*<div class="form-group">
+                            <div class="col-md-12">
+                                <select class="form-control todo-taskbody-tags">
+                                    <option value="Pending">Pending</option>
+                                    <option value="Completed">Completed</option>
+                                    <option value="Testing">Testing</option>
+                                    <option value="Approved">Approed</option>
+                                    <option value="Rejected">Rejected</option>
+                                </select>
+                            </div>
+                        </div>*@
+                    <!-- TASK TAGS -->
+                    <div class="form-actions right todo-form-actions">
+                        <button type="submit" class="btn green-sharp btn-circle">Actualizar</button>
+                        @*@Html.ActionLink("Cancelar", "Pregunta", new { htmlAttributes = new { @class = "btn btn-circle btn-sm btn-default" } })*@
+                        @*<button class="btn btn-circle btn-sm btn-default">Cancel</button>*@
+                    </div>
+                </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
+
+            }
         </div>
     </div>
+</div>
+
+
+@section Styles{
+
+
+    <link href="~/Content/select2.css" rel="stylesheet" />
+    <link href="~/Content/select2-bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/todo-2.min.css" rel="stylesheet" />
+
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+@section Scripts {
+
+    <script src="~/Scripts/bootstrap-confirmation.min.js"></script>
+    <script src="~/Scripts/ui-confirmations.min.js"></script>
+    <script type="text/javascript">
+
+        //FECHA
+
+
+    </script>
+}
+
+
